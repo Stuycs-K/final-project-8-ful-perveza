@@ -27,10 +27,13 @@ void pauseGame() {
 }
 
 boolean checkGameOver() {
+  return true;
 }
 
 void drawBoard() {
 }
 
 Piece randPiece() {
+  Piece randPiece = new Piece();
+  return randPiece;
 }
