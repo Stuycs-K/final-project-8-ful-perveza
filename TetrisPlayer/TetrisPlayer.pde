@@ -63,9 +63,6 @@ void keyPressed() {
 void newPiece() {
 }
 
-void startGame() {
-}
-
 void pauseGame() {
 }
 
