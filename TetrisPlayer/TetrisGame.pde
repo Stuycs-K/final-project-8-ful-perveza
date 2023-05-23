@@ -5,10 +5,10 @@ class TetrisGame {
   int[][] tempBoard;
   
   public TetrisGame() {
-    displayBoard = new int[10][20];
-    setBoard = new int[10][20];
-    currentPieceBoard = new int[10][20];
-    tempBoard = new int[10][20];
+    displayBoard = new int[20][10];
+    setBoard = new int[20][10];
+    currentPieceBoard = new int[20][10];
+    tempBoard = new int[20][10];
   }
   
   boolean gameTick() {
