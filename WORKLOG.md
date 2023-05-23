@@ -1,10 +1,11 @@
 # Work Log
 
-## GROUP MEMBER 1
+## Logan Fu
 
-### date x
+### 5/22/23
 
-info
+Start of project, Day 1. Made empty class files for TetrisPlayer and TetrisGame and filled out simple get/set methods. 
+Made drawBoard make a grid with colors for specific pieces. Need to finalize setup() and startGame(). 
 
 ### date y
 
