@@ -53,8 +53,8 @@ void drawBoard(int[][] board) {
   int cols = board[0].length;
   int squareSize = 35;
   // dimensions: 20 rows of blocks, 10 cols of blocks
-  // 300 size wide, starting 150, ending at 450
-  // 600 size down, starting at 100, ending at 500
+  // 350 size wide, starting 225, ending at 575
+  // 700 size down, starting at 50, ending at 750
   for(int x = 225; x + squareSize <= 575; x += squareSize) {
     for(int y = 50; y + squareSize <= 750; y += squareSize) {
       int currentColor = board[(y- 50) / squareSize][(x - 225) / squareSize];
