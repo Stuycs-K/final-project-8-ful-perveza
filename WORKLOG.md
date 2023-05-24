@@ -14,12 +14,13 @@ I piece, and sucessfully made it rotate using an origin and 3D array containing 
 shifting in cardinal directions. Need to experiment and work on shifting the piece in cardinal directions.
 
 
-## GROUP MEMBER 2
+## Arshan Pervez
 
-### date x
+### 5/22/23
 
-info
+Beginning of project. Made empty class file for Piece and created get/set/constuctor methods. Began to work on tetrominos/shifting and rotating of them.
 
-### date y
+### 5/23/23
 
+Continued to work on tetrominos and shifting/rotating. Created 2D arrays of tetrominos and created initial methods for rotating and shifting (may have to be reworked due to complexity of certain shapes of pieces).
 info
