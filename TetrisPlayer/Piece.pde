@@ -11,6 +11,14 @@ class Piece{
       }
     }
     
+  public int[][] getPiece(){
+    return pieceBoard;
+  }
+  
+  public void setBoard(int[][]ary){
+    pieceBoard = ary;
+  }
+    
 
   
   
