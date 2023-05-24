@@ -65,6 +65,9 @@ void keyPressed() {
     else if(key == 'x' || key == 'X') {
       currentPiece.rotateRight();
     }
+    else if(keyCode == LEFT) {
+      currentPiece.shiftLeft();
+    }
   }
 }
 

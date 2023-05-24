@@ -82,6 +82,18 @@ class IPiece extends Piece {
   }
   
   public boolean shiftLeft(){
+    if(xorigin != 0) {
+      xorigin--;
+    }
+    for(int row = 0; row < pieceBoard.length; row++) {
+      for(int col = 1; col < pieceBoard[row].length; col++) {
+        if(pieceBoard[row][col - 1] == 0) {
+          int temp = pieceBoard[row][col];
+          pieceBoard[row][col - 1] = temp;
+          pieceBoard[row][col] = 0;
+        }
+      }
+    }
     return true;
   }
   
