@@ -21,7 +21,7 @@ void setup() {
   game = new TetrisGame();
   isPaused = false;
   started = false;
-  //currentPiece = randPiece();
+  currentPiece = new IPiece();
   //for(int i = 0; i < 3; i++) {
   //  nextPieces.add(randPiece());
   //}
@@ -50,13 +50,21 @@ void draw() {
     text("TETRIS",335,40);
     
     // game stuff here
-    drawBoard(game.getDisplayBoard());
+    drawBoard(currentPiece.getPiece());
   }
 }
 
 void keyPressed() {
   if(started == false) {
     started = true;
+  }
+  else if(started) {
+    if(key == 'z' || key == 'Z') {
+      currentPiece.rotateLeft();
+    }
+    else if(key == 'x' || key == 'X') {
+      currentPiece.rotateRight();
+    }
   }
 }
 
