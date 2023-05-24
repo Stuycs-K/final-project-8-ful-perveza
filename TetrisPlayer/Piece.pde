@@ -5,13 +5,7 @@ class Piece{
   
   
   public Piece(){
-    this.pieceBoard = new int[10][20];
-    for(int i = 0; i < 10; i++){
-      for(int j = 0; j < 20; j++){
-        pieceBoard[10][20] = 0;
-      }
-    }
-    
+    this.pieceBoard = new int[20][10];
   }
   
   public void rotateLeft(){
