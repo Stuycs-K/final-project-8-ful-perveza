@@ -8,8 +8,8 @@ class IPiece extends Piece {
   
   public IPiece(){
     this.pieceBoard = new int[20][10];
-    xorigin = 0;
-    yorigin = 3;
+    xorigin = 3;
+    yorigin = 0;
     currentRotation = 0;
     rotations = new int[][][]{
       { 
@@ -37,14 +37,12 @@ class IPiece extends Piece {
         {0,0,I,0},
       }
     };
-    pieceBoard[xorigin][yorigin] = rotations[currentRotation][0][0];
-    pieceBoard[xorigin + 1][yorigin] = rotations[currentRotation][1][0];
     for(int i = 0; i < 4; i++) {
       for(int j = 0; j < 4; j++) {
-        pieceBoard[xorigin + i][yorigin + j] = rotations[currentRotation][i][j];
+        pieceBoard[yorigin + i][xorigin + j] = rotations[currentRotation][i][j];
       }
     }
-    pieceBoard[xorigin][yorigin] = 5;
+    pieceBoard[yorigin][xorigin] = 5;
   }
   
   public void rotateLeft(){
@@ -55,14 +53,12 @@ class IPiece extends Piece {
       currentRotation++;
     }
     pieceBoard = new int[20][10];
-    pieceBoard[xorigin][yorigin] = rotations[currentRotation][0][0];
-    pieceBoard[xorigin + 1][yorigin] = rotations[currentRotation][1][0];
     for(int i = 0; i < 4; i++) {
       for(int j = 0; j < 4; j++) {
-        pieceBoard[xorigin + i][yorigin + j] = rotations[currentRotation][i][j];
+        pieceBoard[yorigin + i][xorigin + j] = rotations[currentRotation][i][j];
       }
     }
-    pieceBoard[xorigin][yorigin] = 5;
+    pieceBoard[yorigin][xorigin] = 5;
   }
   
   public void rotateRight(){
@@ -73,14 +69,12 @@ class IPiece extends Piece {
       currentRotation--;
     }
     pieceBoard = new int[20][10];
-    pieceBoard[xorigin][yorigin] = rotations[currentRotation][0][0];
-    pieceBoard[xorigin + 1][yorigin] = rotations[currentRotation][1][0];
     for(int i = 0; i < 4; i++) {
       for(int j = 0; j < 4; j++) {
-        pieceBoard[xorigin + i][yorigin + j] = rotations[currentRotation][i][j];
+        pieceBoard[yorigin + i][xorigin + j] = rotations[currentRotation][i][j];
       }
     }
-    pieceBoard[xorigin][yorigin] = 5;
+    pieceBoard[yorigin][xorigin] = 5;
   }
   
   public boolean shiftDown(){
