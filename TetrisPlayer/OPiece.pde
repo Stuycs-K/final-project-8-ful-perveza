@@ -1,10 +1,10 @@
-class Square extends Piece{
+class OPiece extends Piece{
   private int[][] pieceBoard;
   private int xorigin;
   private int yorigin;
   private int[][][] rotations;
   private int currentRotation;
-  public Square(){
+  public OPiece(){
     this.pieceBoard = new int[20][10];
     xorigin = 3;
     yorigin = 0;
