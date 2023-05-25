@@ -21,7 +21,7 @@ void setup() {
   game = new TetrisGame();
   isPaused = false;
   started = false;
-  currentPiece = new LPiece();
+  currentPiece = new SPiece();
   //for(int i = 0; i < 3; i++) {
   //  nextPieces.add(randPiece());
   //}
