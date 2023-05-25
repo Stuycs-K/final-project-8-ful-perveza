@@ -13,6 +13,12 @@ Made a basic start screen, with a boolean to toggle the start of a game, complet
 I piece, and sucessfully made it rotate using an origin and 3D array containing rotations. But rotating with the 3D array method poses potential issues with
 shifting in cardinal directions. Need to experiment and work on shifting the piece in cardinal directions.
 
+### 5/24/23
+
+Made the shift code (left, right, down) work for the IPiece. The same methods should apply well to the other pieces. Need to finalize testing on piece movement
+when other pieces are done, including a proper controller input class. Then need to test an automatic falling mechanic for the game. We should be on track to finish 
+phase 2 and 3 before or during Friday (5/26), and have the weekend to start developing TetrisGame class with the different game boards and game states.
+
 
 ## Arshan Pervez
 
