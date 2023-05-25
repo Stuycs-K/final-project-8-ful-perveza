@@ -5,6 +5,7 @@ int highScore;
 int level;
 ArrayDeque<Piece> nextPieces;
 boolean isPaused;
+boolean started;
 Piece currentPiece;
 TetrisGame game;
 public static final int I = 1;
@@ -17,28 +18,66 @@ public static final int L = 7;
 
 void setup() {
   size(800,800);
+  game = new TetrisGame();
+  isPaused = false;
+  started = false;
+  currentPiece = new ZPiece();
+  //for(int i = 0; i < 3; i++) {
+  //  nextPieces.add(randPiece());
+  //}
 }
 
 void draw() {
-  if(frameCount % 10 == 0) {
-    int[][] testBoard = new int[20][10];
-    Random rng = new Random();
-    for(int i = 0; i < testBoard.length; i++) {
-      for(int j = 0; j < testBoard[i].length; j++) {
-        testBoard[i][j] = rng.nextInt(8);
+  if(started == false) { // start screen
+    textSize(50);
+    text("TETRIS (press any key to start)", 100, 40);
+    if(frameCount % 10 == 0) {
+      int[][] testBoard = new int[20][10];
+      Random rng = new Random();
+      for(int i = 0; i < testBoard.length; i++) {
+        for(int j = 0; j < testBoard[i].length; j++) {
+          testBoard[i][j] = rng.nextInt(8);
+        }
       }
+      drawBoard(testBoard);
     }
-    drawBoard(testBoard);
+  }
+  else if(started && !isPaused) {
+    // enter game loop
+    background(196);
+    textSize(50);
+    fill(0,0,0);
+    text("TETRIS",325,40);
+    
+    // game stuff here
+    drawBoard(currentPiece.getPiece());
   }
 }
 
 void keyPressed() {
+  if(started == false) {
+    started = true;
+  }
+  else if(started) {
+    if(key == 'z' || key == 'Z') {
+      currentPiece.rotateLeft();
+    }
+    else if(key == 'x' || key == 'X') {
+      currentPiece.rotateRight();
+    }
+    else if(keyCode == LEFT) {
+      currentPiece.shiftLeft();
+    }
+    else if(keyCode == RIGHT) {
+      currentPiece.shiftRight();
+    }
+    else if(keyCode == DOWN) {
+      currentPiece.shiftDown();
+    }
+  }
 }
 
 void newPiece() {
-}
-
-void startGame() {
 }
 
 void pauseGame() {
@@ -49,8 +88,6 @@ boolean checkGameOver() {
 }
 
 void drawBoard(int[][] board) {
-  int rows = board.length;
-  int cols = board[0].length;
   int squareSize = 35;
   // dimensions: 20 rows of blocks, 10 cols of blocks
   // 350 size wide, starting 225, ending at 575
