@@ -47,7 +47,7 @@ void draw() {
     background(196);
     textSize(50);
     fill(0,0,0);
-    text("TETRIS",335,40);
+    text("TETRIS",325,40);
     
     // game stuff here
     drawBoard(currentPiece.getPiece());
@@ -65,6 +65,15 @@ void keyPressed() {
     else if(key == 'x' || key == 'X') {
       currentPiece.rotateRight();
     }
+    else if(keyCode == LEFT) {
+      currentPiece.shiftLeft();
+    }
+    else if(keyCode == RIGHT) {
+      currentPiece.shiftRight();
+    }
+    else if(keyCode == DOWN) {
+      currentPiece.shiftDown();
+    }
   }
 }
 
@@ -79,8 +88,6 @@ boolean checkGameOver() {
 }
 
 void drawBoard(int[][] board) {
-  int rows = board.length;
-  int cols = board[0].length;
   int squareSize = 35;
   // dimensions: 20 rows of blocks, 10 cols of blocks
   // 350 size wide, starting 225, ending at 575
