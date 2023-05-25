@@ -6,8 +6,8 @@ class Square extends Piece{
   private int currentRotation;
   public Square(){
     this.pieceBoard = new int[20][10];
-    xorigin = 0;
-    yorigin = 3;
+    xorigin = 3;
+    yorigin = 0;
     currentRotation = 0;
     rotations = new int[][][]{
       { 
@@ -39,10 +39,10 @@ class Square extends Piece{
     pieceBoard[xorigin + 1][yorigin] = rotations[currentRotation][1][0];
     for(int i = 0; i < 4; i++) {
       for(int j = 0; j < 4; j++) {
-        pieceBoard[xorigin + i][yorigin + j] = rotations[currentRotation][i][j];
+        pieceBoard[yorigin + i][xorigin + j] = rotations[currentRotation][i][j];
       }
     }
-    pieceBoard[xorigin][yorigin] = 5;
+    
   }
   
   public void rotateLeft(){
@@ -53,14 +53,11 @@ class Square extends Piece{
       currentRotation++;
     }
     pieceBoard = new int[20][10];
-    pieceBoard[xorigin][yorigin] = rotations[currentRotation][0][0];
-    pieceBoard[xorigin + 1][yorigin] = rotations[currentRotation][1][0];
     for(int i = 0; i < 4; i++) {
       for(int j = 0; j < 4; j++) {
-        pieceBoard[xorigin + i][yorigin + j] = rotations[currentRotation][i][j];
+        pieceBoard[yorigin + i][xorigin + j] = rotations[currentRotation][i][j];
       }
     }
-    pieceBoard[xorigin][yorigin] = 5;
   }
   
   public void rotateRight(){
@@ -71,20 +68,23 @@ class Square extends Piece{
       currentRotation--;
     }
     pieceBoard = new int[20][10];
-    pieceBoard[xorigin][yorigin] = rotations[currentRotation][0][0];
-    pieceBoard[xorigin + 1][yorigin] = rotations[currentRotation][1][0];
     for(int i = 0; i < 4; i++) {
       for(int j = 0; j < 4; j++) {
-        pieceBoard[xorigin + i][yorigin + j] = rotations[currentRotation][i][j];
+        pieceBoard[yorigin + i][xorigin + j] = rotations[currentRotation][i][j];
       }
     }
-    pieceBoard[xorigin][yorigin] = 5;
   }
   
   public boolean shiftDown(){
     boolean isShifted = false;
     if(yorigin < 16) {
       yorigin++;
+    }
+    for(int i = 0; i  < pieceBoard[0].length; i++){
+      if(pieceBoard[19][i] != 0){
+        return false;
+      }
+      
     }
     for(int row = pieceBoard.length - 1; row > 0; row--) {
       for(int col = 0; col < pieceBoard[row].length; col++) {
@@ -104,6 +104,12 @@ class Square extends Piece{
     if(xorigin != 0) {
       xorigin--;
     }
+    for(int i = 0; i  < pieceBoard.length; i++){
+      if(pieceBoard[i][0] != 0){
+        return false;
+      }
+      
+    }
     for(int row = 0; row < pieceBoard.length; row++) {
       for(int col = 1; col < pieceBoard[row].length; col++) {
         if(pieceBoard[row][col - 1] == 0 && pieceBoard[row][col] != 0) {
@@ -122,6 +128,13 @@ class Square extends Piece{
     if(xorigin < 6) {
       xorigin++;
     }
+    for(int i = 0; i  < pieceBoard.length; i++){
+      if(pieceBoard[i][9] != 0){
+        return false;
+      }
+      
+    }
+    
     for(int row = 0; row < pieceBoard.length; row++) {
       for(int col = pieceBoard[row].length - 2; col > -1; col--) {
         if(pieceBoard[row][col + 1] == 0 && pieceBoard[row][col] != 0) {

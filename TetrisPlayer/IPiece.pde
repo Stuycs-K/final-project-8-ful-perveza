@@ -79,6 +79,12 @@ class IPiece extends Piece {
     if(yorigin < 16) {
       yorigin++;
     }
+    for(int i = 0; i  < pieceBoard[0].length; i++){
+      if(pieceBoard[19][i] != 0){
+        return false;
+      }
+      
+    }
     for(int row = pieceBoard.length - 1; row > 0; row--) {
       for(int col = 0; col < pieceBoard[row].length; col++) {
         if(pieceBoard[row][col] == 0 && pieceBoard[row - 1][col] != 0) {
@@ -96,6 +102,12 @@ class IPiece extends Piece {
     boolean isShifted = false;
     if(xorigin != 0) {
       xorigin--;
+    }
+    for(int i = 0; i  < pieceBoard.length; i++){
+      if(pieceBoard[i][0] != 0){
+        return false;
+      }
+      
     }
     for(int row = 0; row < pieceBoard.length; row++) {
       for(int col = 1; col < pieceBoard[row].length; col++) {
@@ -115,6 +127,13 @@ class IPiece extends Piece {
     if(xorigin < 6) {
       xorigin++;
     }
+    for(int i = 0; i  < pieceBoard.length; i++){
+      if(pieceBoard[i][9] != 0){
+        return false;
+      }
+      
+    }
+    
     for(int row = 0; row < pieceBoard.length; row++) {
       for(int col = pieceBoard[row].length - 2; col > -1; col--) {
         if(pieceBoard[row][col + 1] == 0 && pieceBoard[row][col] != 0) {
