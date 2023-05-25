@@ -29,4 +29,8 @@ Beginning of project. Made empty class file for Piece and created get/set/constu
 ### 5/23/23
 
 Continued to work on tetrominos and shifting/rotating. Created 2D arrays of tetrominos and created initial methods for rotating and shifting (may have to be reworked due to complexity of certain shapes of pieces).
+
+### 5/24/23
+
+Designed rotation arrays for all tetrominos. Rotation looks to have worked, still need to focus now on shifting left and right for certain pieces, as well as their rotations at far lefts/rights.
 info
