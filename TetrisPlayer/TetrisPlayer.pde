@@ -8,6 +8,7 @@ boolean isPaused;
 boolean started;
 Piece currentPiece;
 TetrisGame game;
+Controller keyboardInput;
 public static final int I = 1;
 public static final int O = 2;
 public static final int T = 3;
@@ -22,6 +23,7 @@ void setup() {
   isPaused = false;
   started = false;
   currentPiece = new IPiece();
+  keyboardInput = new Controller();
   //for(int i = 0; i < 3; i++) {
   //  nextPieces.add(randPiece());
   //}
@@ -50,6 +52,21 @@ void draw() {
     text("TETRIS",325,40);
     
     // game stuff here
+    if(keyboardInput.isPressed(Controller.P1_LEFT)) {
+      currentPiece.shiftLeft();
+    }
+    if(keyboardInput.isPressed(Controller.P1_RIGHT)) {
+      currentPiece.shiftRight();
+    }
+    if(keyboardInput.isPressed(Controller.P1_DOWN)) {
+      currentPiece.shiftDown();
+    }
+    if(keyboardInput.isPressed(Controller.P1_RLEFT)) {
+      currentPiece.rotateLeft();
+    }
+    if(keyboardInput.isPressed(Controller.P1_RRIGHT)) {
+      currentPiece.rotateRight();
+    }
     drawBoard(currentPiece.getPiece());
   }
 }
@@ -58,23 +75,13 @@ void keyPressed() {
   if(started == false) {
     started = true;
   }
-  else if(started) {
-    if(key == 'z' || key == 'Z') {
-      currentPiece.rotateLeft();
-    }
-    else if(key == 'x' || key == 'X') {
-      currentPiece.rotateRight();
-    }
-    else if(keyCode == LEFT) {
-      currentPiece.shiftLeft();
-    }
-    else if(keyCode == RIGHT) {
-      currentPiece.shiftRight();
-    }
-    else if(keyCode == DOWN) {
-      currentPiece.shiftDown();
-    }
+  else {
+    keyboardInput.press(keyCode);
   }
+}
+
+void keyReleased() {
+  keyboardInput.release(keyCode);
 }
 
 void newPiece() {
