@@ -142,6 +142,25 @@ void drawBoard(int[][] board) {
 }
 
 Piece randPiece() {
-  Piece randPiece = new Piece();
-  return randPiece;
+  ArrayList<Piece> pieces = new ArrayList<Piece>();
+  Piece I = new ()IPiece;
+  Piece J = new ()JPiece;
+  Piece L= new ()LPiece;
+  Piece O = new ()OPiece;
+  Piece S = new ()SPiece;
+  Piece Z = new ()ZPiece;
+  Piece T= new ()TPiece;
+  
+  
+  pieces.add(I);
+  pieces.add
+  pieces.add(new ()IPiece);
+  pieces.add(new ()IPiece);
+  pieces.add(new ()IPiece);
+  pieces.add(new ()IPiece);
+  pieces.add(new ()IPiece);
+  
+  Random rng = new Random();
+  int choice = rng.nextInt(pieces.size());
+  currentPiece = pieces.get(choice);
 }
