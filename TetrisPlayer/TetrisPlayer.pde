@@ -46,7 +46,7 @@ void draw() {
       drawBoard(testBoard);
     }
   }
-  else if(started && !isPaused && frameCount % 3 == 0) {
+  else if(started && !isPaused && frameCount % 4 == 0) {
     // enter game loop
     background(196);
     textSize(50);
