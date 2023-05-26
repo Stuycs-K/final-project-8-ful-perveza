@@ -1,12 +1,10 @@
-class IPiece extends Piece {
+class ZPiece extends Piece{
   private int[][] pieceBoard;
   private int xorigin;
   private int yorigin;
   private int[][][] rotations;
   private int currentRotation;
-  
-  
-  public IPiece(){
+  public ZPiece(){
     this.pieceBoard = new int[20][10];
     xorigin = 3;
     yorigin = 0;
@@ -14,29 +12,30 @@ class IPiece extends Piece {
     rotations = new int[][][]{
       { 
         {0,0,0,0},
-        {I,I,I,I},
-        {0,0,0,0},
-        {0,0,0,0},
-      },
-      {
-        {0,I,0,0},
-        {0,I,0,0},
-        {0,I,0,0},
-        {0,I,0,0},
-      },
-      {
-        {0,0,0,0},
-        {0,0,0,0},
-        {I,I,I,I},
+        {Z,Z,0,0},
+        {0,Z,Z,0},
         {0,0,0,0},
       },
       {
-        {0,0,I,0},
-        {0,0,I,0},
-        {0,0,I,0},
-        {0,0,I,0},
+        {0,0,0,0},
+        {0,Z,0,0},
+        {Z,Z,0,0},
+        {Z,0,0,0},
+      },
+      {
+        {0,0,0,0},
+        {0,0,0,0},
+        {Z,Z,0,0},
+        {0,Z,Z,0},
+      },
+      {
+        {0,0,0,0},
+        {0,0,Z,0},
+        {0,Z,Z,0},
+        {0,Z,0,0},
       }
     };
+    
     for(int i = 0; i < 4; i++) {
       for(int j = 0; j < 4; j++) {
         pieceBoard[yorigin + i][xorigin + j] = rotations[currentRotation][i][j];
@@ -154,5 +153,4 @@ class IPiece extends Piece {
   public void setPiece(){
     
   }
-  
 }
