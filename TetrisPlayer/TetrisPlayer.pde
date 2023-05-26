@@ -78,7 +78,10 @@ void draw() {
       currentPiece.shiftRight();
     }
     if(keyboardInput.isPressed(Controller.P1_DOWN)) {
-      currentPiece.shiftDown();
+      if(!currentPiece.shiftDown()) {
+        currentPiece = nextPieces.removeLast();
+        nextPieces.add(randPiece());
+      }
     }
     drawBoard(currentPiece.getPiece());
   }
