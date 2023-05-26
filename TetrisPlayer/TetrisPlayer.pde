@@ -28,9 +28,10 @@ void setup() {
   keyboardInput = new Controller();
   cooldown = 0;
   fallCooldown = 0;
-  //for(int i = 0; i < 3; i++) {
-  //  nextPieces.add(randPiece());
-  //}
+  nextPieces = new ArrayDeque<Piece>();
+  for(int i = 0; i < 3; i++) {
+    nextPieces.add(randPiece());
+  }
 }
 
 void draw() {
@@ -53,7 +54,10 @@ void draw() {
   }
   else if(started && !isPaused && fallCooldown == 0) {
     fallCooldown = 60;
-    currentPiece.shiftDown();
+    if(!currentPiece.shiftDown()) {
+      currentPiece = nextPieces.removeLast();
+      nextPieces.add(randPiece());
+    }
     drawBoard(currentPiece.getPiece());
   }
   if(started && !isPaused && frameCount % 4 == 0) {
