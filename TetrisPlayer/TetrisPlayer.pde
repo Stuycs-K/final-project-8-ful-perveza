@@ -23,13 +23,9 @@ void setup() {
   game = new TetrisGame();
   isPaused = false;
   started = false;
-<<<<<<< HEAD
   currentPiece = new IPiece();
   keyboardInput = new Controller();
   cooldown = 0;
-=======
-  currentPiece = new ZPiece();
->>>>>>> 4c2c9f449962aa7315e47f18e0fe322f714199ba
   //for(int i = 0; i < 3; i++) {
   //  nextPieces.add(randPiece());
   //}
