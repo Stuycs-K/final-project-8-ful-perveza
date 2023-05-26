@@ -10,6 +10,7 @@ Piece currentPiece;
 TetrisGame game;
 Controller keyboardInput;
 int cooldown;
+int fallCooldown;
 public static final int I = 1;
 public static final int O = 2;
 public static final int T = 3;
@@ -26,6 +27,7 @@ void setup() {
   currentPiece = new IPiece();
   keyboardInput = new Controller();
   cooldown = 0;
+  fallCooldown = 0;
   //for(int i = 0; i < 3; i++) {
   //  nextPieces.add(randPiece());
   //}
@@ -46,7 +48,15 @@ void draw() {
       drawBoard(testBoard);
     }
   }
-  else if(started && !isPaused && frameCount % 4 == 0) {
+  if(started && !isPaused && fallCooldown > 0) {
+    fallCooldown--;
+  }
+  else if(started && !isPaused && fallCooldown == 0) {
+    fallCooldown = 60;
+    currentPiece.shiftDown();
+    drawBoard(currentPiece.getPiece());
+  }
+  if(started && !isPaused && frameCount % 4 == 0) {
     // enter game loop
     background(196);
     textSize(50);
@@ -142,6 +152,26 @@ void drawBoard(int[][] board) {
 }
 
 Piece randPiece() {
-  Piece randPiece = new Piece();
-  return randPiece;
+  ArrayList<Piece> pieces = new ArrayList<Piece>();
+  Piece I = new IPiece();
+  Piece J = new JPiece();
+  Piece L= new LPiece();
+  Piece O = new OPiece();
+  Piece S = new SPiece();
+  Piece Z = new ZPiece();
+  Piece T= new TPiece();
+  
+  
+  pieces.add(I);
+  pieces.add(J);
+  pieces.add(S);
+  pieces.add(Z);
+  pieces.add(T);
+  pieces.add(O);
+  pieces.add(L);
+  
+  
+  Random rng = new Random();
+  int choice = rng.nextInt(pieces.size());
+   return pieces.get(choice);
 }
