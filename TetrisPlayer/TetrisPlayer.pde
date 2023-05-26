@@ -46,7 +46,7 @@ void draw() {
       drawBoard(testBoard);
     }
   }
-  else if(started && !isPaused && frameCount % 5 == 0) {
+  else if(started && !isPaused && frameCount % 3 == 0) {
     // enter game loop
     background(196);
     textSize(50);
@@ -66,12 +66,6 @@ void draw() {
     if(keyboardInput.isPressed(Controller.P1_DOWN)) {
       currentPiece.shiftDown();
     }
-    if(keyboardInput.isPressed(Controller.P1_RLEFT)) {
-      currentPiece.rotateLeft();
-    }
-    if(keyboardInput.isPressed(Controller.P1_RRIGHT)) {
-      currentPiece.rotateRight();
-    }
     drawBoard(currentPiece.getPiece());
   }
 }
@@ -82,7 +76,15 @@ void keyPressed() {
   }
   else if(cooldown == 0){
     cooldown = 1;
-    keyboardInput.press(keyCode);
+    if(keyCode == 'Z') {
+      currentPiece.rotateLeft();
+    }
+    else if(keyCode == 'X') {
+      currentPiece.rotateRight();
+    }
+    else {
+       keyboardInput.press(keyCode);
+    }
   }
 }
 
