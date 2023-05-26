@@ -16,6 +16,7 @@ class TetrisGame {
   }
   
   boolean copyOverBoard() {
+    // compare non-zero values of currentPieceBoard with tempBoard
     return true;
   }
   
