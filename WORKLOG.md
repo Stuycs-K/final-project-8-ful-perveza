@@ -24,6 +24,9 @@ phase 2 and 3 before or during Friday (5/26), and have the weekend to start deve
 Made a proper controller class for smoother cardinal inputs. Phase 2 is completed. Tomorrow, we should be able to complete phase 3 with falling pieces and generating
 new random pieces with relative ease, unless unexpected issues come up. Phase 4 should be able to be started over the weekend of 5/27, which will be critical for the MVP due 6/2.
 
+### 5/26/23
+
+Made pieces automatically shift down, and generate a new piece when it reached the bottom. Phase 3 is completed. 
 
 ## Arshan Pervez
 
