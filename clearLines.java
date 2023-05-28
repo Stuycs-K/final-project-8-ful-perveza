@@ -6,6 +6,10 @@ public class clearLines{
     int[][] ary = { {1,0,0}, {5,6,3}, {1,1,1}, {0,1,1}};
     clearLines(ary);
     System.out.println(Arrays.deepToString(ary));
+
+    ary = new int[][]{ {1,1,1}, {5,0,3}, {1,1,1}, {1,1,1}};
+    clearLines(ary);
+    System.out.println(Arrays.deepToString(ary));
   }
 
   public static void clearLines(int[][] ary){
