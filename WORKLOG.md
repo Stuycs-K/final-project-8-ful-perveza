@@ -28,6 +28,11 @@ new random pieces with relative ease, unless unexpected issues come up. Phase 4 
 
 Made pieces automatically shift down, and generate a new piece when it reached the bottom. Phase 3 is completed.
 
+### 5/29/23
+
+Completed copyOverBoard and gameTick. Pieces now fall into place correctly. Phase 4 is completed. Need to begin phase 5 for finalizing the game loop. Implementation of clearlines, scoring, etc
+need to be made.
+
 ## Arshan Pervez
 
 ### 5/22/23
