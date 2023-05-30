@@ -6,6 +6,7 @@ int level;
 ArrayDeque<Piece> nextPieces;
 boolean isPaused;
 boolean started;
+boolean isGameOver;
 Piece currentPiece;
 TetrisGame game;
 Controller keyboardInput;
@@ -24,6 +25,7 @@ void setup() {
   game = new TetrisGame();
   isPaused = false;
   started = false;
+  isGameOver = false;
   currentPiece = randPiece();
   game.setPieceBoard(currentPiece.getPiece());
   keyboardInput = new Controller();
@@ -50,7 +52,14 @@ void draw() {
       drawBoard(testBoard);
     }
   }
-  if (started && !isPaused && fallCooldown > 0) {
+  if(isGameOver) {
+    background(196);
+    textSize(40);
+    fill(0, 0, 0);
+    text("GAME OVER (SCORE: " + score +")", 215, 40);
+    drawBoard(game.getDisplayBoard());
+  }
+  if (started && !isPaused && fallCooldown > 0 && !isGameOver) {
     fallCooldown--;
   } else if (started && !isPaused && fallCooldown == 0) {
     fallCooldown = 60;
@@ -65,7 +74,7 @@ void draw() {
     }
     drawBoard(game.getDisplayBoard());
   }
-  if (started && !isPaused && frameCount % 4 == 0) {
+  if (started && !isPaused && frameCount % 4 == 0 && !isGameOver) {
     // enter game loop
     background(196);
     textSize(50);
@@ -147,7 +156,10 @@ void newPiece() {
   currentPiece = nextPieces.removeLast();
   game.setPieceBoard(currentPiece.getPiece());
   nextPieces.add(randPiece());
-  game.gameTick();
+  boolean gameOver = game.gameTick();
+  if(!gameOver) {
+    isGameOver = true;
+  }
 }
 
 void pauseGame() {
