@@ -29,6 +29,8 @@ void setup() {
   keyboardInput = new Controller();
   cooldown = 0;
   fallCooldown = 0;
+  level = 0;
+  score = 0;
   nextPieces = new ArrayDeque<Piece>();
   for(int i = 0; i < 3; i++) {
     nextPieces.add(randPiece());
@@ -57,7 +59,8 @@ void draw() {
     fallCooldown = 60;
     if(!currentPiece.shiftDown()) {
       game.newSetBoard();
-      game.clearLines();
+      int x = game.clearLines();
+      score+=game.scoreAdd(level,x);
       currentPiece = nextPieces.removeLast();
       game.setPieceBoard(currentPiece.getPiece());
       nextPieces.add(randPiece());
@@ -68,7 +71,8 @@ void draw() {
       boolean tick = game.gameTick();
       if(!tick) {
         game.newSetBoard();
-        game.clearLines();
+        int x = game.clearLines();
+      score+=game.scoreAdd(level,x);
         currentPiece = nextPieces.removeLast();
         game.setPieceBoard(currentPiece.getPiece());
         nextPieces.add(randPiece());
@@ -83,7 +87,8 @@ void draw() {
     textSize(50);
     fill(0,0,0);
     text("TETRIS",325,40);
-    
+    text("SCORE",50,200);
+    text(score,100,270);
     // game stuff here
     if(cooldown > 0) {
       cooldown--;
@@ -109,7 +114,8 @@ void draw() {
     if(keyboardInput.isPressed(Controller.P1_DOWN)) {
       if(!currentPiece.shiftDown()) {
         game.newSetBoard();
-        game.clearLines();
+        int x = game.clearLines();
+      score+=game.scoreAdd(level,x);
         currentPiece = nextPieces.removeLast();
         game.setPieceBoard(currentPiece.getPiece());
         nextPieces.add(randPiece());
@@ -120,7 +126,8 @@ void draw() {
         boolean tick = game.gameTick();
         if(!tick) {
           game.newSetBoard();
-          game.clearLines();
+          int x = game.clearLines();
+      score+=game.scoreAdd(level,x);
           currentPiece = nextPieces.removeLast();
           game.setPieceBoard(currentPiece.getPiece());
           nextPieces.add(randPiece());
