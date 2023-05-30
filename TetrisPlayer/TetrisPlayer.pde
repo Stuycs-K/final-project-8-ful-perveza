@@ -57,6 +57,7 @@ void draw() {
     fallCooldown = 60;
     if(!currentPiece.shiftDown()) {
       game.newSetBoard();
+      game.clearLines();
       currentPiece = nextPieces.removeLast();
       game.setPieceBoard(currentPiece.getPiece());
       nextPieces.add(randPiece());
@@ -67,6 +68,7 @@ void draw() {
       boolean tick = game.gameTick();
       if(!tick) {
         game.newSetBoard();
+        game.clearLines();
         currentPiece = nextPieces.removeLast();
         game.setPieceBoard(currentPiece.getPiece());
         nextPieces.add(randPiece());
@@ -107,6 +109,7 @@ void draw() {
     if(keyboardInput.isPressed(Controller.P1_DOWN)) {
       if(!currentPiece.shiftDown()) {
         game.newSetBoard();
+        game.clearLines();
         currentPiece = nextPieces.removeLast();
         game.setPieceBoard(currentPiece.getPiece());
         nextPieces.add(randPiece());
@@ -117,6 +120,7 @@ void draw() {
         boolean tick = game.gameTick();
         if(!tick) {
           game.newSetBoard();
+          game.clearLines();
           currentPiece = nextPieces.removeLast();
           game.setPieceBoard(currentPiece.getPiece());
           nextPieces.add(randPiece());

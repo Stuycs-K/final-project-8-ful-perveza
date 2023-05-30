@@ -82,23 +82,23 @@ class TetrisGame {
     }
   }
   
-  void clearLines(int[][] ary){
+  void clearLines(){
     int counter = 0;
-    for(int i = 0; i < ary.length; i++){
-      for(int j = 0; j < ary[0].length; j++){
-        if(ary[i][j] != 0){
+    for(int i = 0; i < setBoard.length; i++){
+      for(int j = 0; j < setBoard[0].length; j++){
+        if(setBoard[i][j] != 0){
           counter++;
         }
       }
-      if(counter == ary[0].length){
-        for(int o = 0; o < ary[i].length; o++){
-          ary[i][o] = 0;
+      if(counter == setBoard[0].length){
+        for(int o = 0; o < setBoard[i].length; o++){
+          setBoard[i][o] = 0;
         }
         int w = i;
         for(int a = i; a >= 1; a--){
-          for(int p = 0; p < ary[0].length; p++){
-            ary[a][p] = ary[a-1][p];
-            ary[a-1][p] = 0;
+          for(int p = 0; p < setBoard[0].length; p++){
+            setBoard[a][p] = setBoard[a-1][p];
+            setBoard[a-1][p] = 0;
           }
         }
         i--;
