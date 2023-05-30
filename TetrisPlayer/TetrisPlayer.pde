@@ -24,7 +24,8 @@ void setup() {
   game = new TetrisGame();
   isPaused = false;
   started = false;
-  currentPiece = new IPiece();
+  currentPiece = randPiece();
+  game.setPieceBoard(currentPiece.getPiece());
   keyboardInput = new Controller();
   cooldown = 0;
   fallCooldown = 0;
@@ -55,10 +56,24 @@ void draw() {
   else if(started && !isPaused && fallCooldown == 0) {
     fallCooldown = 60;
     if(!currentPiece.shiftDown()) {
+      game.newSetBoard();
       currentPiece = nextPieces.removeLast();
+      game.setPieceBoard(currentPiece.getPiece());
       nextPieces.add(randPiece());
+      game.gameTick();
     }
-    drawBoard(currentPiece.getPiece());
+    else {
+      game.setPieceBoard(currentPiece.getPiece());
+      boolean tick = game.gameTick();
+      if(!tick) {
+        game.newSetBoard();
+        currentPiece = nextPieces.removeLast();
+        game.setPieceBoard(currentPiece.getPiece());
+        nextPieces.add(randPiece());
+        game.gameTick();
+      }
+    }
+    drawBoard(game.getDisplayBoard());
   }
   if(started && !isPaused && frameCount % 4 == 0) {
     // enter game loop
@@ -73,17 +88,44 @@ void draw() {
     }
     if(keyboardInput.isPressed(Controller.P1_LEFT)) {
       currentPiece.shiftLeft();
+      game.setPieceBoard(currentPiece.getPiece());
+      boolean tick = game.gameTick();
+      if(!tick) {
+        currentPiece.shiftRight();
+      }
+      drawBoard(game.getDisplayBoard());
     }
     if(keyboardInput.isPressed(Controller.P1_RIGHT)) {
       currentPiece.shiftRight();
+      game.setPieceBoard(currentPiece.getPiece());
+      boolean tick = game.gameTick();
+      if(!tick) {
+        currentPiece.shiftLeft();
+      }
+      drawBoard(game.getDisplayBoard());
     }
     if(keyboardInput.isPressed(Controller.P1_DOWN)) {
       if(!currentPiece.shiftDown()) {
+        game.newSetBoard();
         currentPiece = nextPieces.removeLast();
+        game.setPieceBoard(currentPiece.getPiece());
         nextPieces.add(randPiece());
+        game.gameTick();
+      }
+      else {
+        game.setPieceBoard(currentPiece.getPiece());
+        boolean tick = game.gameTick();
+        if(!tick) {
+          game.newSetBoard();
+          currentPiece = nextPieces.removeLast();
+          game.setPieceBoard(currentPiece.getPiece());
+          nextPieces.add(randPiece());
+          game.gameTick();
+        }
+        drawBoard(game.getDisplayBoard());
       }
     }
-    drawBoard(currentPiece.getPiece());
+    drawBoard(game.getDisplayBoard());
   }
 }
 
@@ -95,9 +137,21 @@ void keyPressed() {
     cooldown = 1;
     if(keyCode == 'Z') {
       currentPiece.rotateLeft();
+      game.setPieceBoard(currentPiece.getPiece());
+      boolean tick = game.gameTick();
+      if(!tick) {
+        currentPiece.rotateRight();
+      }
+      drawBoard(game.getDisplayBoard());
     }
     else if(keyCode == 'X') {
       currentPiece.rotateRight();
+      game.setPieceBoard(currentPiece.getPiece());
+      boolean tick = game.gameTick();
+      if(!tick) {
+        currentPiece.rotateLeft();
+      }
+      drawBoard(game.getDisplayBoard());
     }
     else {
        keyboardInput.press(keyCode);
