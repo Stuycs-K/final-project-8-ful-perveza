@@ -29,6 +29,7 @@ void setup() {
   keyboardInput = new Controller();
   cooldown = 0;
   fallCooldown = 0;
+  level = 0;
   nextPieces = new ArrayDeque<Piece>();
   for(int i = 0; i < 3; i++) {
     nextPieces.add(randPiece());
