@@ -20,7 +20,7 @@ public static final int J = 6;
 public static final int L = 7;
 
 void setup() {
-  size(800,800);
+  size(800, 800);
   game = new TetrisGame();
   isPaused = false;
   started = false;
@@ -30,101 +30,78 @@ void setup() {
   cooldown = 0;
   fallCooldown = 0;
   nextPieces = new ArrayDeque<Piece>();
-  for(int i = 0; i < 3; i++) {
+  for (int i = 0; i < 3; i++) {
     nextPieces.add(randPiece());
   }
 }
 
 void draw() {
-  if(started == false) { // start screen
+  if (started == false) { // start screen
     textSize(50);
     text("TETRIS (press any key to start)", 100, 40);
-    if(frameCount % 10 == 0) {
+    if (frameCount % 10 == 0) {
       int[][] testBoard = new int[20][10];
       Random rng = new Random();
-      for(int i = 0; i < testBoard.length; i++) {
-        for(int j = 0; j < testBoard[i].length; j++) {
+      for (int i = 0; i < testBoard.length; i++) {
+        for (int j = 0; j < testBoard[i].length; j++) {
           testBoard[i][j] = rng.nextInt(8);
         }
       }
       drawBoard(testBoard);
     }
   }
-  if(started && !isPaused && fallCooldown > 0) {
+  if (started && !isPaused && fallCooldown > 0) {
     fallCooldown--;
-  }
-  else if(started && !isPaused && fallCooldown == 0) {
+  } else if (started && !isPaused && fallCooldown == 0) {
     fallCooldown = 60;
-    if(!currentPiece.shiftDown()) {
-      game.newSetBoard();
-      game.clearLines();
-      currentPiece = nextPieces.removeLast();
-      game.setPieceBoard(currentPiece.getPiece());
-      nextPieces.add(randPiece());
-      game.gameTick();
-    }
-    else {
+    if (!currentPiece.shiftDown()) {
+      newPiece();
+    } else {
       game.setPieceBoard(currentPiece.getPiece());
       boolean tick = game.gameTick();
-      if(!tick) {
-        game.newSetBoard();
-        game.clearLines();
-        currentPiece = nextPieces.removeLast();
-        game.setPieceBoard(currentPiece.getPiece());
-        nextPieces.add(randPiece());
-        game.gameTick();
+      if (!tick) {
+        newPiece();
       }
     }
     drawBoard(game.getDisplayBoard());
   }
-  if(started && !isPaused && frameCount % 4 == 0) {
+  if (started && !isPaused && frameCount % 4 == 0) {
     // enter game loop
     background(196);
     textSize(50);
-    fill(0,0,0);
-    text("TETRIS",325,40);
-    
+    fill(0, 0, 0);
+    text("TETRIS", 325, 40);
+
     // game stuff here
-    if(cooldown > 0) {
+    if (cooldown > 0) {
       cooldown--;
     }
-    if(keyboardInput.isPressed(Controller.P1_LEFT)) {
+    if (keyboardInput.isPressed(Controller.P1_LEFT)) {
       currentPiece.shiftLeft();
       game.setPieceBoard(currentPiece.getPiece());
       boolean tick = game.gameTick();
-      if(!tick) {
+      if (!tick) {
         currentPiece.shiftRight();
       }
       drawBoard(game.getDisplayBoard());
     }
-    if(keyboardInput.isPressed(Controller.P1_RIGHT)) {
+    if (keyboardInput.isPressed(Controller.P1_RIGHT)) {
       currentPiece.shiftRight();
       game.setPieceBoard(currentPiece.getPiece());
       boolean tick = game.gameTick();
-      if(!tick) {
+      if (!tick) {
         currentPiece.shiftLeft();
       }
       drawBoard(game.getDisplayBoard());
     }
-    if(keyboardInput.isPressed(Controller.P1_DOWN)) {
-      if(!currentPiece.shiftDown()) {
-        game.newSetBoard();
-        game.clearLines();
-        currentPiece = nextPieces.removeLast();
-        game.setPieceBoard(currentPiece.getPiece());
-        nextPieces.add(randPiece());
-        game.gameTick();
-      }
-      else {
+    if (keyboardInput.isPressed(Controller.P1_DOWN)) {
+      if (!currentPiece.shiftDown()) {
+        newPiece();
+      } else {
         game.setPieceBoard(currentPiece.getPiece());
         boolean tick = game.gameTick();
-        if(!tick) {
-          game.newSetBoard();
-          game.clearLines();
-          currentPiece = nextPieces.removeLast();
-          game.setPieceBoard(currentPiece.getPiece());
-          nextPieces.add(randPiece());
-          game.gameTick();
+        if (!tick) {
+          newPiece();
         }
         drawBoard(game.getDisplayBoard());
       }
@@ -134,31 +111,28 @@ void draw() {
 }
 
 void keyPressed() {
-  if(started == false) {
+  if (started == false) {
     started = true;
-  }
-  else if(cooldown == 0){
+  } else if (cooldown == 0) {
     cooldown = 1;
-    if(keyCode == 'Z') {
+    if (keyCode == 'Z') {
       currentPiece.rotateLeft();
       game.setPieceBoard(currentPiece.getPiece());
       boolean tick = game.gameTick();
-      if(!tick) {
+      if (!tick) {
         currentPiece.rotateRight();
       }
       drawBoard(game.getDisplayBoard());
-    }
-    else if(keyCode == 'X') {
+    } else if (keyCode == 'X') {
       currentPiece.rotateRight();
       game.setPieceBoard(currentPiece.getPiece());
       boolean tick = game.gameTick();
-      if(!tick) {
+      if (!tick) {
         currentPiece.rotateLeft();
       }
       drawBoard(game.getDisplayBoard());
-    }
-    else {
-       keyboardInput.press(keyCode);
+    } else {
+      keyboardInput.press(keyCode);
     }
   }
 }
@@ -168,6 +142,12 @@ void keyReleased() {
 }
 
 void newPiece() {
+  game.newSetBoard();
+  game.clearLines();
+  currentPiece = nextPieces.removeLast();
+  game.setPieceBoard(currentPiece.getPiece());
+  nextPieces.add(randPiece());
+  game.gameTick();
 }
 
 void pauseGame() {
@@ -182,38 +162,29 @@ void drawBoard(int[][] board) {
   // dimensions: 20 rows of blocks, 10 cols of blocks
   // 350 size wide, starting 225, ending at 575
   // 700 size down, starting at 50, ending at 750
-  for(int x = 225; x + squareSize <= 575; x += squareSize) {
-    for(int y = 50; y + squareSize <= 750; y += squareSize) {
+  for (int x = 225; x + squareSize <= 575; x += squareSize) {
+    for (int y = 50; y + squareSize <= 750; y += squareSize) {
       int currentColor = board[(y- 50) / squareSize][(x - 225) / squareSize];
-      if(currentColor == I) { // I tetrominoe is cyan
-        fill(0,255,255);
+      if (currentColor == I) { // I tetrominoe is cyan
+        fill(0, 255, 255);
+      } else if (currentColor == O) { // O is yellow
+        fill(255, 255, 0);
+      } else if (currentColor == T) { // T is purple
+        fill(255, 0, 255);
+      } else if (currentColor == S) { // S is green
+        fill(0, 255, 0);
+      } else if (currentColor == Z) { // Z is red
+        fill(255, 0, 0);
+      } else if (currentColor == J) { // J is blue
+        fill(0, 0, 255);
+      } else if (currentColor == L) { // L is orange
+        fill(255, 127, 0);
+      } else {
+        fill(255, 255, 255);
       }
-      else if(currentColor == O) { // O is yellow
-        fill(255,255,0);
-      }
-      else if(currentColor == T) { // T is purple
-        fill(255,0,255);
-      }
-      else if(currentColor == S) { // S is green
-        fill(0,255,0);
-      }
-      else if(currentColor == Z) { // Z is red
-        fill(255,0,0);
-      }
-      else if(currentColor == J) { // J is blue
-        fill(0,0,255);
-      }
-      else if(currentColor == L) { // L is orange
-        fill(255,127,0);
-      }
-      else {
-        fill(255,255,255);
-      }
-      square(x,y,squareSize);
+      square(x, y, squareSize);
     }
   }
- 
-  
 }
 
 Piece randPiece() {
@@ -225,8 +196,8 @@ Piece randPiece() {
   Piece S = new SPiece();
   Piece Z = new ZPiece();
   Piece T= new TPiece();
-  
-  
+
+
   pieces.add(I);
   pieces.add(J);
   pieces.add(S);
@@ -234,9 +205,9 @@ Piece randPiece() {
   pieces.add(T);
   pieces.add(O);
   pieces.add(L);
-  
-  
+
+
   Random rng = new Random();
   int choice = rng.nextInt(pieces.size());
-   return pieces.get(choice);
+  return pieces.get(choice);
 }
