@@ -86,7 +86,7 @@ void draw() {
     fill(0,0,0);
     text("TETRIS",325,40);
     text("SCORE",50,200);
-    
+    text(score,100,270);
     // game stuff here
     if(cooldown > 0) {
       cooldown--;
