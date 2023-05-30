@@ -30,6 +30,7 @@ void setup() {
   cooldown = 0;
   fallCooldown = 0;
   level = 0;
+  score = 0;
   nextPieces = new ArrayDeque<Piece>();
   for(int i = 0; i < 3; i++) {
     nextPieces.add(randPiece());
@@ -84,6 +85,7 @@ void draw() {
     textSize(50);
     fill(0,0,0);
     text("TETRIS",325,40);
+    text("SCORE",50,200);
     
     // game stuff here
     if(cooldown > 0) {
