@@ -82,7 +82,8 @@ class TetrisGame {
     }
   }
   
-  void clearLines(){
+  int clearLines(){
+    int lines = 0;
     int counter = 0;
     for(int i = 0; i < setBoard.length; i++){
       for(int j = 0; j < setBoard[0].length; j++){
@@ -91,6 +92,7 @@ class TetrisGame {
         }
       }
       if(counter == setBoard[0].length){
+        lines ++;
         for(int o = 0; o < setBoard[i].length; o++){
           setBoard[i][o] = 0;
         }
@@ -106,5 +108,27 @@ class TetrisGame {
       }
       counter = 0;
     }
+    return lines;
+    
   }
+  
+  int scoreAdd(int level, int lines){
+    if(lines == 1){
+      return 40*(level+1);
+    }
+    if(lines == 2){
+      return 40*(level+1);
+    }
+    if(lines == 3){
+      return 40*(level+1);
+    }
+    if(lines == 4){
+      return 40*(level+1);
+    }
+    else{
+      return 0;
+    }
+    
+  }
+  
 }
