@@ -1,6 +1,8 @@
 import java.util.*;
+import processing.sound.*;
 
 int score;
+SoundFile file;
 int highScore;
 int level;
 ArrayDeque<Piece> nextPieces;
@@ -21,6 +23,8 @@ public static final int L = 7;
 
 void setup() {
   size(800,800);
+  file = new SoundFile(this, "Tetris.wav");
+  file.loop();
   game = new TetrisGame();
   isPaused = false;
   started = false;
