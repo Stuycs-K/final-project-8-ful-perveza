@@ -12,6 +12,7 @@ TetrisGame game;
 Controller keyboardInput;
 int cooldown;
 int fallCooldown;
+int gameOverCooldown;
 public static final int I = 1;
 public static final int O = 2;
 public static final int T = 3;
@@ -22,25 +23,14 @@ public static final int L = 7;
 
 void setup() {
   size(800, 800);
-  game = new TetrisGame();
-  isPaused = false;
-  started = false;
-  isGameOver = false;
-  currentPiece = randPiece();
-  game.setPieceBoard(currentPiece.getPiece());
-  keyboardInput = new Controller();
-  cooldown = 0;
-  fallCooldown = 0;
-  nextPieces = new ArrayDeque<Piece>();
-  for (int i = 0; i < 3; i++) {
-    nextPieces.add(randPiece());
-  }
+  startGame();
 }
 
 void draw() {
   if (started == false) { // start screen
     textSize(50);
-    text("TETRIS (press any key to start)", 100, 40);
+    textAlign(CENTER);
+    text("TETRIS (press any key to start)", 400, 40);
     if (frameCount % 10 == 0) {
       int[][] testBoard = new int[20][10];
       Random rng = new Random();
@@ -56,8 +46,10 @@ void draw() {
     background(196);
     textSize(40);
     fill(0, 0, 0);
-    text("GAME OVER (SCORE: " + score +")", 215, 40);
+    textAlign(CENTER);
+    text("GAME OVER (SCORE: " + score +")", 400, 40);
     drawBoard(game.getDisplayBoard());
+    gameOverCooldown--;
   }
   if (started && !isPaused && fallCooldown > 0 && !isGameOver) {
     fallCooldown--;
@@ -79,7 +71,8 @@ void draw() {
     background(196);
     textSize(50);
     fill(0, 0, 0);
-    text("TETRIS", 325, 40);
+    textAlign(CENTER);
+    text("TETRIS", 400, 40);
 
     // game stuff here
     if (cooldown > 0) {
@@ -122,7 +115,11 @@ void draw() {
 void keyPressed() {
   if (started == false) {
     started = true;
-  } else if (cooldown == 0) {
+  } 
+  else if(isGameOver && gameOverCooldown <= 0) {
+    startGame();
+  }
+  else if (cooldown == 0) {
     cooldown = 1;
     if (keyCode == 'Z') {
       currentPiece.rotateLeft();
@@ -165,8 +162,22 @@ void newPiece() {
 void pauseGame() {
 }
 
-boolean checkGameOver() {
-  return true;
+void startGame() {
+  background(196);
+  game = new TetrisGame();
+  isPaused = false;
+  started = false;
+  isGameOver = false;
+  currentPiece = randPiece();
+  game.setPieceBoard(currentPiece.getPiece());
+  keyboardInput = new Controller();
+  cooldown = 0;
+  fallCooldown = 0;
+  gameOverCooldown = 60;
+  nextPieces = new ArrayDeque<Piece>();
+  for (int i = 0; i < 3; i++) {
+    nextPieces.add(randPiece());
+  }
 }
 
 void drawBoard(int[][] board) {
