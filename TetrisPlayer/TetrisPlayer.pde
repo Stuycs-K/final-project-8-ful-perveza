@@ -15,6 +15,7 @@ Controller keyboardInput;
 int cooldown;
 int fallCooldown;
 int gameOverCooldown;
+int hardDropCooldown;
 public static final int I = 1;
 public static final int O = 2;
 public static final int T = 3;
@@ -31,6 +32,7 @@ void setup() {
 }
 
 void draw() {
+  hardDropCooldown--;
   if (started == false) { // start screen
     textSize(50);
     textAlign(CENTER);
@@ -115,6 +117,10 @@ void draw() {
         drawBoard(game.getDisplayBoard());
       }
     }
+    if (keyboardInput.isPressed(Controller.P1_DROP) && hardDropCooldown <= 0) {
+      hardDropCooldown = 10;
+      hardDrop();
+    }
     drawBoard(game.getDisplayBoard());
   }
 }
@@ -136,7 +142,8 @@ void keyPressed() {
         currentPiece.rotateRight();
       }
       drawBoard(game.getDisplayBoard());
-    } else if (keyCode == 'X') {
+    } 
+    else if (keyCode == 'X') {
       currentPiece.rotateRight();
       game.setPieceBoard(currentPiece.getPiece());
       boolean tick = game.gameTick();
@@ -144,7 +151,8 @@ void keyPressed() {
         currentPiece.rotateLeft();
       }
       drawBoard(game.getDisplayBoard());
-    } else {
+    } 
+    else {
       keyboardInput.press(keyCode);
     }
   }
@@ -167,6 +175,24 @@ void newPiece() {
   }
 }
 
+void hardDrop() {
+  while(true) {
+    if (!currentPiece.shiftDown()) {
+      newPiece();
+      break;
+    } 
+    else {
+      game.setPieceBoard(currentPiece.getPiece());
+      boolean tick = game.gameTick();
+      if (!tick) {
+        newPiece();
+        break;
+      }
+    }
+  }
+  drawBoard(game.getDisplayBoard());
+}
+
 void pauseGame() {
 }
 
@@ -182,6 +208,7 @@ void startGame() {
   cooldown = 0;
   fallCooldown = 0;
   gameOverCooldown = 60;
+  hardDropCooldown = 30;
   level = 0;
   score = 0;
   nextPieces = new ArrayDeque<Piece>();
