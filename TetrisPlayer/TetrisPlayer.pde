@@ -70,10 +70,11 @@ void draw() {
     // enter game loop
     background(196);
     textSize(50);
-    fill(0, 0, 0);
+    fill(0,0,0);
     textAlign(CENTER);
-    text("TETRIS", 400, 40);
-
+    text("TETRIS",400,40);
+    text("SCORE",100,200);
+    text(score,100,270);
     // game stuff here
     if (cooldown > 0) {
       cooldown--;
@@ -149,7 +150,8 @@ void keyReleased() {
 
 void newPiece() {
   game.newSetBoard();
-  game.clearLines();
+  int x = game.clearLines();
+  score+=game.scoreAdd(level,x);
   currentPiece = nextPieces.removeLast();
   game.setPieceBoard(currentPiece.getPiece());
   nextPieces.add(randPiece());
@@ -174,8 +176,10 @@ void startGame() {
   cooldown = 0;
   fallCooldown = 0;
   gameOverCooldown = 60;
+  level = 0;
+  score = 0;
   nextPieces = new ArrayDeque<Piece>();
-  for (int i = 0; i < 3; i++) {
+  for(int i = 0; i < 3; i++) {
     nextPieces.add(randPiece());
   }
 }
