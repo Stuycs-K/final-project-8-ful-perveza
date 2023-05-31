@@ -117,13 +117,13 @@ class TetrisGame {
       return 40*(level+1);
     }
     if(lines == 2){
-      return 40*(level+1);
+      return 100*(level+1);
     }
     if(lines == 3){
-      return 40*(level+1);
+      return 300*(level+1);
     }
     if(lines == 4){
-      return 40*(level+1);
+      return 1200*(level+1);
     }
     else{
       return 0;

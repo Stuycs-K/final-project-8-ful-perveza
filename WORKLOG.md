@@ -33,6 +33,11 @@ Made pieces automatically shift down, and generate a new piece when it reached t
 Completed copyOverBoard and gameTick. Pieces now fall into place correctly. Phase 4 is completed. Need to begin phase 5 for finalizing the game loop. Implementation of clearlines, scoring, etc
 need to be made.
 
+### 5/30/23
+
+Combined Arshan's clearLines function to be called when pieces set down, and works well. Made a basic gameOver screen/state, and cleaned up some code into separate functions. At this time, we have
+reached our MVP/Demo ready for 6/2. From this point on, we will start focusing on quality of life features. 
+
 ## Arshan Pervez
 
 ### 5/22/23
@@ -52,4 +57,7 @@ info
 Fixed errors for shifting pieces (when shifting to the far left or right, pieces would often change shape entirely)
 
 ### 5/26/23
-Created randPiece, a method which would generate a random piece once the current falling piece turns inactive. Still need to work on making sure that no one piece shows up constantly, or a piece does not show up at all when chosen randomly. 
+Created randPiece, a method which would generate a random piece once the current falling piece turns inactive. Still need to work on making sure that no one piece shows up constantly, or a piece does not show up at all when chosen randomly.
+
+### 5/27/23
+Created a system to keep track of scoring at the sides, as well as implemented music into the program. Might want to only play music when the game is running, and keep track of what kind of score ppl get when they're able to clear more than 1 line.
