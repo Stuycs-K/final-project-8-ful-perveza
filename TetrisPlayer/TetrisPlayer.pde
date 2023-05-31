@@ -136,7 +136,8 @@ void keyPressed() {
         currentPiece.rotateRight();
       }
       drawBoard(game.getDisplayBoard());
-    } else if (keyCode == 'X') {
+    } 
+    else if (keyCode == 'X') {
       currentPiece.rotateRight();
       game.setPieceBoard(currentPiece.getPiece());
       boolean tick = game.gameTick();
@@ -144,7 +145,11 @@ void keyPressed() {
         currentPiece.rotateLeft();
       }
       drawBoard(game.getDisplayBoard());
-    } else {
+    } 
+    else if(keyCode == ' ') {
+      hardDrop();
+    }
+    else {
       keyboardInput.press(keyCode);
     }
   }
@@ -165,6 +170,24 @@ void newPiece() {
   if(!gameOver) {
     isGameOver = true;
   }
+}
+
+void hardDrop() {
+  while(true) {
+    if (!currentPiece.shiftDown()) {
+      newPiece();
+      break;
+    } 
+    else {
+      game.setPieceBoard(currentPiece.getPiece());
+      boolean tick = game.gameTick();
+      if (!tick) {
+        newPiece();
+        break;
+      }
+    }
+  }
+  drawBoard(game.getDisplayBoard());
 }
 
 void pauseGame() {
