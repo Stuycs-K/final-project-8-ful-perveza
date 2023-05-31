@@ -1,6 +1,8 @@
 import java.util.*;
+import processing.sound.*;
 
 int score;
+SoundFile file;
 int highScore;
 int level;
 ArrayDeque<Piece> nextPieces;
@@ -23,6 +25,8 @@ public static final int L = 7;
 
 void setup() {
   size(800, 800);
+  file = new SoundFile(this, "Tetris.wav");
+  file.loop();
   startGame();
 }
 
@@ -53,11 +57,13 @@ void draw() {
   }
   if (started && !isPaused && fallCooldown > 0 && !isGameOver) {
     fallCooldown--;
-  } else if (started && !isPaused && fallCooldown == 0) {
+  } 
+  else if (started && !isPaused && fallCooldown == 0) {
     fallCooldown = 60;
     if (!currentPiece.shiftDown()) {
       newPiece();
-    } else {
+    } 
+    else {
       game.setPieceBoard(currentPiece.getPiece());
       boolean tick = game.gameTick();
       if (!tick) {
