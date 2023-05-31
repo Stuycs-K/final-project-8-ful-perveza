@@ -5,6 +5,7 @@ int score;
 SoundFile file;
 int highScore;
 int level;
+int lines;
 ArrayDeque<Piece> nextPieces;
 boolean isPaused;
 boolean started;
@@ -81,6 +82,10 @@ void draw() {
     text("TETRIS",400,40);
     text("SCORE",100,200);
     text(score,100,270);
+    text("LINES",100,350);
+    text(lines,100,420);
+    text("LEVEL",100,550);
+    text(level,100,630);
     // game stuff here
     if (cooldown > 0) {
       cooldown--;
@@ -157,6 +162,12 @@ void keyReleased() {
 void newPiece() {
   game.newSetBoard();
   int x = game.clearLines();
+  lines += x;
+  if(lines - 10*(level+1) >= 0){
+    //lines = 0;
+    level++;
+    fallCooldown-=10;
+  }
   score+=game.scoreAdd(level,x);
   currentPiece = nextPieces.removeLast();
   game.setPieceBoard(currentPiece.getPiece());
@@ -184,6 +195,7 @@ void startGame() {
   gameOverCooldown = 60;
   level = 0;
   score = 0;
+  lines = 0;
   nextPieces = new ArrayDeque<Piece>();
   for(int i = 0; i < 3; i++) {
     nextPieces.add(randPiece());
