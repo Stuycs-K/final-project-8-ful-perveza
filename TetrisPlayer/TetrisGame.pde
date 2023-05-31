@@ -142,7 +142,7 @@ class TetrisGame {
       return "TRIPLE";
     }
     if(lines == 4){
-      return "TETRIS"
+      return "TETRIS";
     }
     else{
       return "";
