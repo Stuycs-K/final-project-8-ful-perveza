@@ -2,6 +2,7 @@ import java.util.*;
 import processing.sound.*;
 
 int score;
+String scoreType;
 SoundFile file;
 int highScore;
 int level;
@@ -22,6 +23,7 @@ public static final int J = 6;
 public static final int L = 7;
 
 void setup() {
+  scoreType = "";
   size(800,800);
   file = new SoundFile(this, "Tetris.wav");
   file.loop();
