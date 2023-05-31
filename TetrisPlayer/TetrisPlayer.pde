@@ -15,6 +15,7 @@ Controller keyboardInput;
 int cooldown;
 int fallCooldown;
 int gameOverCooldown;
+int hardDropCooldown;
 public static final int I = 1;
 public static final int O = 2;
 public static final int T = 3;
@@ -31,6 +32,7 @@ void setup() {
 }
 
 void draw() {
+  hardDropCooldown--;
   if (started == false) { // start screen
     textSize(50);
     textAlign(CENTER);
@@ -115,6 +117,10 @@ void draw() {
         drawBoard(game.getDisplayBoard());
       }
     }
+    if (keyboardInput.isPressed(Controller.P1_DROP) && hardDropCooldown <= 0) {
+      hardDropCooldown = 10;
+      hardDrop();
+    }
     drawBoard(game.getDisplayBoard());
   }
 }
@@ -146,9 +152,6 @@ void keyPressed() {
       }
       drawBoard(game.getDisplayBoard());
     } 
-    else if(keyCode == ' ') {
-      hardDrop();
-    }
     else {
       keyboardInput.press(keyCode);
     }
@@ -205,6 +208,7 @@ void startGame() {
   cooldown = 0;
   fallCooldown = 0;
   gameOverCooldown = 60;
+  hardDropCooldown = 30;
   level = 0;
   score = 0;
   nextPieces = new ArrayDeque<Piece>();
