@@ -5,11 +5,11 @@ int score;
 SoundFile file;
 int highScore;
 int level;
-String display = "";
+String scoreName = "";
 int play;
 int lines;
-int time;
-int interval;
+int passed;
+int scoreTime;
 ArrayDeque<Piece> nextPieces;
 ArrayList<Piece> generatedPieces;
 boolean isPaused;
@@ -31,9 +31,9 @@ public static final int J = 6;
 public static final int L = 7;
 
 void setup() {
-  time = millis();
-  display = "test";
-  interval = 2000;
+  passed = millis();
+  scoreName = "";
+  scoreTime = 2000;
   play = 0;
   highScore = 0;
   size(800, 800);
@@ -112,7 +112,7 @@ void draw() {
     text("HIGH", 700,270);
     text("SCORE", 700,310);
     text(highScore,700,380);
-    text(display,700,550);
+    text(scoreName,700,550);
     // game stuff here
     if (cooldown > 0) {
       cooldown--;
@@ -202,12 +202,20 @@ void newPiece() {
   int x = game.clearLines();
   
   lines += x;
+  if(millis() - passed > scoreTime){
+    scoreName = game.setLinesName(x);
+    passed = millis();
+  }
+  
   //if(lines - 10*(level) >= 0){
   //  //lines = 0;
   //  level++;
   //  //fallCooldown-=10;
   //}
   score+=game.scoreAdd(level,x);
+  if(play == 0){
+    highScore+=game.scoreAdd(level,x);
+  }
   currentPiece = nextPieces.removeLast();
   game.setPieceBoard(currentPiece.getPiece());
   nextPieces.add(betterRandPiece());
