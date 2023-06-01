@@ -5,7 +5,11 @@ int score;
 SoundFile file;
 int highScore;
 int level;
+String display = "";
+int play;
 int lines;
+int time;
+int interval;
 ArrayDeque<Piece> nextPieces;
 ArrayList<Piece> generatedPieces;
 boolean isPaused;
@@ -27,6 +31,11 @@ public static final int J = 6;
 public static final int L = 7;
 
 void setup() {
+  time = millis();
+  display = "test";
+  interval = 2000;
+  play = 0;
+  highScore = 0;
   size(800, 800);
   file = new SoundFile(this, "Tetris.wav");
   file.loop();
@@ -39,6 +48,8 @@ void draw() {
     textSize(50);
     textAlign(CENTER);
     text("TETRIS (press any key to start)", 400, 40);
+    //rect(200,40,20,20);
+    
     if (frameCount % 10 == 0) {
       int[][] testBoard = new int[20][10];
       Random rng = new Random();
@@ -49,13 +60,16 @@ void draw() {
       }
       drawBoard(testBoard);
     }
+    
   }
   if(isGameOver) {
+    highScore = score;
+    play++;
     background(196);
-    textSize(40);
+    textSize(30);
     fill(0, 0, 0);
     textAlign(CENTER);
-    text("GAME OVER (SCORE: " + score +")", 400, 40);
+    text("GAME OVER (SCORE: " + score +") PRESS ANY KEY TO RESTART", 400, 40);
     drawBoard(game.getDisplayBoard());
     gameOverCooldown--;
   }
@@ -95,6 +109,10 @@ void draw() {
     text(lines,100,420);
     text("LEVEL",100,550);
     text(level,100,630);
+    text("HIGH", 700,270);
+    text("SCORE", 700,310);
+    text(highScore,700,380);
+    text(display,700,550);
     // game stuff here
     if (cooldown > 0) {
       cooldown--;
@@ -119,6 +137,9 @@ void draw() {
     }
     if (keyboardInput.isPressed(Controller.P1_DOWN)) {
       score++;
+      if(play == 0){
+        highScore++;
+      }
       if (!currentPiece.shiftDown()) {
         newPiece();
       } else {
@@ -179,6 +200,7 @@ void newPiece() {
   delay(500);
   game.newSetBoard();
   int x = game.clearLines();
+  
   lines += x;
   //if(lines - 10*(level) >= 0){
   //  //lines = 0;
@@ -203,6 +225,9 @@ void hardDrop() {
     } 
     else {
       score+=2;
+      if(play == 0){
+        highScore += 2;
+      }
       game.setPieceBoard(currentPiece.getPiece());
       boolean tick = game.gameTick();
       if (!tick) {
@@ -233,6 +258,7 @@ void startGame() {
   hardDropCooldown = 30;
   level = 1;
   score = 0;
+  //highScore = 0;
   lines = 0;
   nextPieces = new ArrayDeque<Piece>();
   for(int i = 0; i < 3; i++) {

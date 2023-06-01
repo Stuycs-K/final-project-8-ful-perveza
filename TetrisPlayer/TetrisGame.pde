@@ -135,4 +135,22 @@ class TetrisGame {
     return 60-(level-1)*3;
   }
   
+  String setLinesName(int lines){
+    if(lines == 1){
+      return "SINGLE!";
+    }
+    if(lines == 2){
+      return "DOUBLE!";
+    }
+    if(lines == 3){
+      return "TRIPLE!";
+    }
+    if(lines == 4){
+      return "TETRIS!";
+    }
+    else{
+      return "";
+    }
+  }
+  
 }
