@@ -131,4 +131,8 @@ class TetrisGame {
     
   }
   
+  int setNewCooldown(int level){
+    return 60-(level-1)*3;
+  }
+  
 }

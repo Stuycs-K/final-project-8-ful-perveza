@@ -63,7 +63,13 @@ void draw() {
     fallCooldown--;
   } 
   else if (started && !isPaused && fallCooldown == 0) {
-    fallCooldown = 60;
+    fallCooldown = game.setNewCooldown(level);
+  //  if(lines - 10*(level) >= 0){
+  //  //lines = 0;
+  //  level++;
+  //  fallCooldown -= 20;
+  //  //fallCooldown-=10;
+  //}
     if (!currentPiece.shiftDown()) {
       newPiece();
     } 
@@ -76,7 +82,7 @@ void draw() {
     }
     drawBoard(game.getDisplayBoard());
   }
-  if (started && !isPaused && frameCount % 4 == 0 && !isGameOver) {
+  if (started && !isPaused && frameCount % 6 == 0 && !isGameOver) {
     // enter game loop
     background(196);
     textSize(50);
@@ -174,11 +180,11 @@ void newPiece() {
   game.newSetBoard();
   int x = game.clearLines();
   lines += x;
-  if(lines - 10*(level) >= 0){
-    //lines = 0;
-    level++;
-    //fallCooldown-=10;
-  }
+  //if(lines - 10*(level) >= 0){
+  //  //lines = 0;
+  //  level++;
+  //  //fallCooldown-=10;
+  //}
   score+=game.scoreAdd(level,x);
   currentPiece = nextPieces.removeLast();
   game.setPieceBoard(currentPiece.getPiece());

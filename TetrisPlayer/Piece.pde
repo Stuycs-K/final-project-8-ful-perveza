@@ -17,6 +17,7 @@ class Piece{
   }
   
   public boolean shiftDown(){
+    delay(300);
     return true;
   }
   
