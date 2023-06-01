@@ -112,6 +112,7 @@ void draw() {
       drawBoard(game.getDisplayBoard());
     }
     if (keyboardInput.isPressed(Controller.P1_DOWN)) {
+      score++;
       if (!currentPiece.shiftDown()) {
         newPiece();
       } else {
@@ -169,13 +170,14 @@ void keyReleased() {
 }
 
 void newPiece() {
+  delay(500);
   game.newSetBoard();
   int x = game.clearLines();
   lines += x;
-  if(lines - 10*(level+1) >= 0){
+  if(lines - 10*(level) >= 0){
     //lines = 0;
     level++;
-    fallCooldown-=10;
+    //fallCooldown-=10;
   }
   score+=game.scoreAdd(level,x);
   currentPiece = nextPieces.removeLast();
@@ -194,6 +196,7 @@ void hardDrop() {
       break;
     } 
     else {
+      score+=2;
       game.setPieceBoard(currentPiece.getPiece());
       boolean tick = game.gameTick();
       if (!tick) {
@@ -222,7 +225,7 @@ void startGame() {
   fallCooldown = 0;
   gameOverCooldown = 60;
   hardDropCooldown = 30;
-  level = 0;
+  level = 1;
   score = 0;
   lines = 0;
   nextPieces = new ArrayDeque<Piece>();

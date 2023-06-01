@@ -114,16 +114,16 @@ class TetrisGame {
   
   int scoreAdd(int level, int lines){
     if(lines == 1){
-      return 40*(level+1);
+      return 100*(level);
     }
     if(lines == 2){
-      return 100*(level+1);
+      return 300*(level);
     }
     if(lines == 3){
-      return 300*(level+1);
+      return 500*(level);
     }
     if(lines == 4){
-      return 1200*(level+1);
+      return 800*(level);
     }
     else{
       return 0;
