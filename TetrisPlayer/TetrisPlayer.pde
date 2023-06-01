@@ -118,7 +118,7 @@ void draw() {
       }
     }
     if (keyboardInput.isPressed(Controller.P1_DROP) && hardDropCooldown <= 0) {
-      hardDropCooldown = 10;
+      hardDropCooldown = 15;
       hardDrop();
     }
     drawBoard(game.getDisplayBoard());
