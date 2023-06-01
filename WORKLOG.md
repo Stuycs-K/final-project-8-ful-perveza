@@ -38,6 +38,11 @@ need to be made.
 Combined Arshan's clearLines function to be called when pieces set down, and works well. Made a basic gameOver screen/state, and cleaned up some code into separate functions. At this time, we have
 reached our MVP/Demo ready for 6/2. From this point on, we will start focusing on quality of life features. 
 
+### 5/31/23
+
+Made a hardDrop function and a better random piece generation (the standard way of generating pieces in Tetris; generate a random bag of 7 pieces, take from the bag, and generate a new bag
+when those pieces are exhausted). 
+
 ## Arshan Pervez
 
 ### 5/22/23
