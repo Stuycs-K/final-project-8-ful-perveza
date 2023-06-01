@@ -6,6 +6,7 @@ SoundFile file;
 int highScore;
 int level;
 ArrayDeque<Piece> nextPieces;
+ArrayList<Piece> generatedPieces;
 boolean isPaused;
 boolean started;
 boolean isGameOver;
@@ -168,7 +169,7 @@ void newPiece() {
   score+=game.scoreAdd(level,x);
   currentPiece = nextPieces.removeLast();
   game.setPieceBoard(currentPiece.getPiece());
-  nextPieces.add(randPiece());
+  nextPieces.add(betterRandPiece());
   boolean gameOver = game.gameTick();
   if(!gameOver) {
     isGameOver = true;
@@ -202,7 +203,8 @@ void startGame() {
   isPaused = false;
   started = false;
   isGameOver = false;
-  currentPiece = randPiece();
+  generatePieces();
+  currentPiece = betterRandPiece();
   game.setPieceBoard(currentPiece.getPiece());
   keyboardInput = new Controller();
   cooldown = 0;
@@ -213,7 +215,7 @@ void startGame() {
   score = 0;
   nextPieces = new ArrayDeque<Piece>();
   for(int i = 0; i < 3; i++) {
-    nextPieces.add(randPiece());
+    nextPieces.add(betterRandPiece());
   }
 }
 
@@ -270,4 +272,28 @@ Piece randPiece() {
   Random rng = new Random();
   int choice = rng.nextInt(pieces.size());
   return pieces.get(choice);
+}
+
+Piece betterRandPiece() {
+  if(generatedPieces.size() == 1) {
+     Piece newPiece = generatedPieces.remove(0);
+     generatePieces();
+     return newPiece;
+  }
+  else {
+    return generatedPieces.remove(0);
+  }
+}
+
+void generatePieces() {
+  generatedPieces = new ArrayList<Piece>();
+  generatedPieces.add(new IPiece());
+  generatedPieces.add(new JPiece());
+  generatedPieces.add(new LPiece());
+  generatedPieces.add(new OPiece());
+  generatedPieces.add(new SPiece());
+  generatedPieces.add(new ZPiece());
+  generatedPieces.add(new TPiece());
+  
+  Collections.shuffle(generatedPieces);
 }
