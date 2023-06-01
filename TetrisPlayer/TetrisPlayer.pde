@@ -5,6 +5,11 @@ int score;
 SoundFile file;
 int highScore;
 int level;
+String scoreName = "";
+int play;
+int lines;
+int passed;
+int scoreTime;
 ArrayDeque<Piece> nextPieces;
 ArrayList<Piece> generatedPieces;
 boolean isPaused;
@@ -26,6 +31,11 @@ public static final int J = 6;
 public static final int L = 7;
 
 void setup() {
+  passed = millis();
+  scoreName = "";
+  scoreTime = 2000;
+  play = 0;
+  highScore = 0;
   size(800, 800);
   file = new SoundFile(this, "Tetris.wav");
   file.loop();
@@ -38,6 +48,8 @@ void draw() {
     textSize(50);
     textAlign(CENTER);
     text("TETRIS (press any key to start)", 400, 40);
+    //rect(200,40,20,20);
+    
     if (frameCount % 10 == 0) {
       int[][] testBoard = new int[20][10];
       Random rng = new Random();
@@ -48,13 +60,16 @@ void draw() {
       }
       drawBoard(testBoard);
     }
+    
   }
   if(isGameOver) {
+    highScore = score;
+    play++;
     background(196);
-    textSize(40);
+    textSize(30);
     fill(0, 0, 0);
     textAlign(CENTER);
-    text("GAME OVER (SCORE: " + score +")", 400, 40);
+    text("GAME OVER (SCORE: " + score +") PRESS ANY KEY TO RESTART", 400, 40);
     drawBoard(game.getDisplayBoard());
     gameOverCooldown--;
   }
@@ -62,7 +77,13 @@ void draw() {
     fallCooldown--;
   } 
   else if (started && !isPaused && fallCooldown == 0) {
-    fallCooldown = 60;
+    fallCooldown = game.setNewCooldown(level);
+  //  if(lines - 10*(level) >= 0){
+  //  //lines = 0;
+  //  level++;
+  //  fallCooldown -= 20;
+  //  //fallCooldown-=10;
+  //}
     if (!currentPiece.shiftDown()) {
       newPiece();
     } 
@@ -75,7 +96,7 @@ void draw() {
     }
     drawBoard(game.getDisplayBoard());
   }
-  if (started && !isPaused && frameCount % 4 == 0 && !isGameOver) {
+  if (started && !isPaused && frameCount % 6 == 0 && !isGameOver) {
     // enter game loop
     background(196);
     textSize(50);
@@ -84,6 +105,14 @@ void draw() {
     text("TETRIS",400,40);
     text("SCORE",100,200);
     text(score,100,270);
+    text("LINES",100,350);
+    text(lines,100,420);
+    text("LEVEL",100,550);
+    text(level,100,630);
+    text("HIGH", 700,270);
+    text("SCORE", 700,310);
+    text(highScore,700,380);
+    text(scoreName,700,550);
     // game stuff here
     if (cooldown > 0) {
       cooldown--;
@@ -107,6 +136,10 @@ void draw() {
       drawBoard(game.getDisplayBoard());
     }
     if (keyboardInput.isPressed(Controller.P1_DOWN)) {
+      score++;
+      if(play == 0){
+        highScore++;
+      }
       if (!currentPiece.shiftDown()) {
         newPiece();
       } else {
@@ -164,9 +197,25 @@ void keyReleased() {
 }
 
 void newPiece() {
+  delay(500);
   game.newSetBoard();
   int x = game.clearLines();
+  
+  lines += x;
+  if(millis() - passed > scoreTime){
+    scoreName = game.setLinesName(x);
+    passed = millis();
+  }
+  
+  //if(lines - 10*(level) >= 0){
+  //  //lines = 0;
+  //  level++;
+  //  //fallCooldown-=10;
+  //}
   score+=game.scoreAdd(level,x);
+  if(play == 0){
+    highScore+=game.scoreAdd(level,x);
+  }
   currentPiece = nextPieces.removeLast();
   game.setPieceBoard(currentPiece.getPiece());
   nextPieces.add(betterRandPiece());
@@ -183,6 +232,10 @@ void hardDrop() {
       break;
     } 
     else {
+      score+=2;
+      if(play == 0){
+        highScore += 2;
+      }
       game.setPieceBoard(currentPiece.getPiece());
       boolean tick = game.gameTick();
       if (!tick) {
@@ -211,8 +264,10 @@ void startGame() {
   fallCooldown = 0;
   gameOverCooldown = 60;
   hardDropCooldown = 30;
-  level = 0;
+  level = 1;
   score = 0;
+  //highScore = 0;
+  lines = 0;
   nextPieces = new ArrayDeque<Piece>();
   for(int i = 0; i < 3; i++) {
     nextPieces.add(betterRandPiece());
