@@ -136,13 +136,13 @@ void draw() {
       drawBoard(game.getDisplayBoard());
     }
     if (keyboardInput.isPressed(Controller.P1_DOWN)) {
-      score++;
-      if(play == 0){
-        highScore++;
-      }
       if (!currentPiece.shiftDown()) {
         newPiece();
       } else {
+        score++;
+      if(play == 0){
+        highScore++;
+      }
         game.setPieceBoard(currentPiece.getPiece());
         boolean tick = game.gameTick();
         if (!tick) {
