@@ -269,7 +269,7 @@ void startGame() {
   fallCooldown = 0;
   gameOverCooldown = 60;
   hardDropCooldown = 30;
-  level = 10;
+  level = 1;
   score = 0;
   //highScore = 0;
   lines = 0;
