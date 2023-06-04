@@ -10,7 +10,7 @@ int play;
 int lines;
 int passed;
 int scoreTime;
-ArrayDeque<Piece> nextPieces;
+LinkedList<Piece> nextPieces;
 ArrayList<Piece> generatedPieces;
 boolean isPaused;
 boolean started;
@@ -22,6 +22,7 @@ int cooldown;
 int fallCooldown;
 int gameOverCooldown;
 int hardDropCooldown;
+int[][] sidePieces;
 public static final int I = 1;
 public static final int O = 2;
 public static final int T = 3;
@@ -109,10 +110,12 @@ void draw() {
     text(lines,100,420);
     text("LEVEL",100,550);
     text(level,100,630);
-    text("HIGH", 700,270);
-    text("SCORE", 700,310);
-    text(highScore,700,380);
-    text(scoreName,700,550);
+    text("HIGH", 700,130);
+    text("SCORE", 700,170);
+    text(highScore,700,240);
+    text(scoreName,700,300);
+    textSize(30);
+    text("NEXT PIECES", 700, 390);
     // game stuff here
     if (cooldown > 0) {
       cooldown--;
@@ -156,6 +159,7 @@ void draw() {
       hardDrop();
     }
     drawBoard(game.getDisplayBoard());
+    drawSidePieces();
   }
 }
 
@@ -216,9 +220,10 @@ void newPiece() {
   if(play == 0){
     highScore+=game.scoreAdd(level,x);
   }
-  currentPiece = nextPieces.removeLast();
+  currentPiece = nextPieces.removeFirst();
   game.setPieceBoard(currentPiece.getPiece());
   nextPieces.add(betterRandPiece());
+  setSidePieceDisplay();
   boolean gameOver = game.gameTick();
   if(!gameOver) {
     isGameOver = true;
@@ -268,10 +273,12 @@ void startGame() {
   score = 0;
   //highScore = 0;
   lines = 0;
-  nextPieces = new ArrayDeque<Piece>();
+  nextPieces = new LinkedList<Piece>();
   for(int i = 0; i < 3; i++) {
     nextPieces.add(betterRandPiece());
   }
+  sidePieces = new int[12][4];
+  setSidePieceDisplay();
 }
 
 void drawBoard(int[][] board) {
@@ -302,6 +309,62 @@ void drawBoard(int[][] board) {
       square(x, y, squareSize);
     }
   }
+}
+
+void drawSidePieces() {
+  int squareSize = 25;
+   // dimensions: 12 rows of blocks, 4 cols of blocks
+  for (int x = 650; x + squareSize <= 750; x += squareSize) {
+    for (int y = 400; y + squareSize <= 700; y += squareSize) {
+      int currentColor = sidePieces[(y- 400) / squareSize][(x - 650) / squareSize];
+      if (currentColor == I) { // I tetrominoe is cyan
+        fill(0, 255, 255);
+      } else if (currentColor == O) { // O is yellow
+        fill(255, 255, 0);
+      } else if (currentColor == T) { // T is purple
+        fill(255, 0, 255);
+      } else if (currentColor == S) { // S is green
+        fill(0, 255, 0);
+      } else if (currentColor == Z) { // Z is red
+        fill(255, 0, 0);
+      } else if (currentColor == J) { // J is blue
+        fill(0, 0, 255);
+      } else if (currentColor == L) { // L is orange
+        fill(255, 127, 0);
+      } else {
+        fill(255, 255, 255);
+      }
+      square(x, y, squareSize);
+    }
+  }
+}
+
+void setSidePieceDisplay() {
+  Piece piece1 = nextPieces.get(0);
+  Piece piece2 = nextPieces.get(1);
+  Piece piece3 = nextPieces.get(2);
+  
+  int[][] ary1 = piece1.getPiece();
+  int[][] ary2 = piece2.getPiece();
+  int[][] ary3 = piece3.getPiece();
+  
+  for(int i = 3; i <= 6; i++) {
+    for(int j = 0; j <= 3; j++) {
+      sidePieces[j][i - 3] = ary1[j][i];
+    }
+  }
+  for(int i = 3; i <= 6; i++) {
+    for(int j = 0; j <= 3; j++) {
+      sidePieces[4 + j][i - 3] = ary2[j][i];
+    }
+  }
+  for(int i = 3; i <= 6; i++) {
+    for(int j = 0; j <= 3; j++) {
+      sidePieces[8 + j][i - 3] = ary3[j][i];
+    }
+  }
+  
+  
 }
 
 Piece randPiece() {
