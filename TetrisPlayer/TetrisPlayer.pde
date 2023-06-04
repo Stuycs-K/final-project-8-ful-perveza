@@ -31,11 +31,6 @@ public static final int J = 6;
 public static final int L = 7;
 
 void setup() {
-  passed = millis();
-  scoreName = "";
-  scoreTime = 2000;
-  play = 0;
-  highScore = 0;
   size(800, 800);
   file = new SoundFile(this, "Tetris.wav");
   file.loop();
@@ -63,7 +58,9 @@ void draw() {
     
   }
   if(isGameOver) {
-    highScore = score;
+    if(highScore <= score){
+      highScore = score;
+    }
     play++;
     background(196);
     textSize(30);
@@ -206,6 +203,9 @@ void newPiece() {
     scoreName = game.setLinesName(x);
     passed = millis();
   }
+  if(lines - 10*(level) >= 0){
+    level++;
+  }
   
   //if(lines - 10*(level) >= 0){
   //  //lines = 0;
@@ -253,6 +253,11 @@ void pauseGame() {
 void startGame() {
   background(196);
   game = new TetrisGame();
+  passed = millis();
+  scoreName = "";
+  //highScore = 0;
+  scoreTime = 2000;
+  //highScore = 0;
   isPaused = false;
   started = false;
   isGameOver = false;
@@ -264,7 +269,7 @@ void startGame() {
   fallCooldown = 0;
   gameOverCooldown = 60;
   hardDropCooldown = 30;
-  level = 1;
+  level = 10;
   score = 0;
   //highScore = 0;
   lines = 0;
