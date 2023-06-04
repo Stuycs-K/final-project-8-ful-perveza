@@ -36,12 +36,16 @@ need to be made.
 ### 5/30/23
 
 Combined Arshan's clearLines function to be called when pieces set down, and works well. Made a basic gameOver screen/state, and cleaned up some code into separate functions. At this time, we have
-reached our MVP/Demo ready for 6/2. From this point on, we will start focusing on quality of life features. 
+reached our MVP/Demo ready for 6/2. From this point on, we will start focusing on quality of life features.
 
 ### 5/31/23
 
 Made a hardDrop function and a better random piece generation (the standard way of generating pieces in Tetris; generate a random bag of 7 pieces, take from the bag, and generate a new bag
-when those pieces are exhausted). 
+when those pieces are exhausted).
+
+### 6/4/23
+
+Made functions for displaying the next pieces on the side bar. Can use similar display methods for creating a hold piece function.
 
 ## Arshan Pervez
 
@@ -66,3 +70,6 @@ Created randPiece, a method which would generate a random piece once the current
 
 ### 5/27/23
 Created a system to keep track of scoring at the sides, as well as implemented music into the program. Might want to only play music when the game is running, and keep track of what kind of score ppl get when they're able to clear more than 1 line.
+
+### 5/28-6/1
+Created more instructions after gameover for in game clarity. Created various methods/timekeeping to temporarily display last score methods, if there was a score. created a highscore system, as well as level system that makes the pieces fall faster. Made the game itself a bit more slower/choppy for easier handling.
