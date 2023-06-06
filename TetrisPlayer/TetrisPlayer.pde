@@ -12,6 +12,9 @@ int passed;
 int scoreTime;
 LinkedList<Piece> nextPieces;
 ArrayList<Piece> generatedPieces;
+Piece heldPiece;
+boolean heldPieceEmpty;
+boolean heldPieceThisTurn;
 boolean isPaused;
 boolean started;
 boolean isGameOver;
@@ -23,6 +26,7 @@ int fallCooldown;
 int gameOverCooldown;
 int hardDropCooldown;
 int[][] sidePieces;
+int[][] heldPieceDisplay;
 public static final int I = 1;
 public static final int O = 2;
 public static final int T = 3;
@@ -103,10 +107,11 @@ void draw() {
     fill(0,0,0);
     textAlign(CENTER);
     text("TETRIS",400,40);
-    text("SCORE",100,200);
-    text(score,100,270);
-    text("LINES",100,350);
-    text(lines,100,420);
+    text("HOLD",105,70);
+    text("SCORE",100,250);
+    text(score,100,320);
+    text("LINES",100,400);
+    text(lines,100,470);
     text("LEVEL",100,550);
     text(level,100,630);
     text("HIGH", 700,130);
@@ -159,6 +164,7 @@ void draw() {
     }
     drawBoard(game.getDisplayBoard());
     drawSidePieces();
+    drawHeldPiece();
   }
 }
 
@@ -189,6 +195,9 @@ void keyPressed() {
       }
       drawBoard(game.getDisplayBoard());
     } 
+    else if(keyCode == 'C') {
+      setHeldPiece();
+    }
     else {
       keyboardInput.press(keyCode);
     }
@@ -200,7 +209,7 @@ void keyReleased() {
 }
 
 void newPiece() {
-  delay(500);
+  //delay(500);
   game.newSetBoard();
   int x = game.clearLines();
   
@@ -230,6 +239,7 @@ void newPiece() {
   if(!gameOver) {
     isGameOver = true;
   }
+  heldPieceThisTurn = false;
 }
 
 void hardDrop() {
@@ -286,6 +296,10 @@ void startGame() {
   }
   sidePieces = new int[12][4];
   setSidePieceDisplay();
+  heldPieceDisplay = new int[4][4];
+  heldPiece = new Piece();
+  heldPieceEmpty = true;
+  heldPieceThisTurn = false;
 }
 
 void drawBoard(int[][] board) {
@@ -360,6 +374,76 @@ void drawSidePieces() {
       square(x, y, squareSize);
     }
   }
+}
+
+void drawHeldPiece() {
+  int squareSize = 25;
+   // dimensions: 4 rows of blocks, 4 cols of blocks
+  for (int x = 55; x + squareSize <= 155; x += squareSize) {
+    for (int y = 90; y + squareSize <= 190; y += squareSize) {
+      int currentColor = heldPieceDisplay[(y- 90) / squareSize][(x - 55) / squareSize];
+      if (currentColor == I) { // I tetrominoe is cyan
+        fill(0, 255, 255);
+      } else if (currentColor == O) { // O is yellow
+        fill(255, 255, 0);
+      } else if (currentColor == T) { // T is purple
+        fill(255, 0, 255);
+      } else if (currentColor == S) { // S is green
+        fill(0, 255, 0);
+      } else if (currentColor == Z) { // Z is red
+        fill(255, 0, 0);
+      } else if (currentColor == J) { // J is blue
+        fill(0, 0, 255);
+      } else if (currentColor == L) { // L is orange
+        fill(255, 127, 0);
+      } else {
+        fill(255, 255, 255);
+      }
+      square(x, y, squareSize);
+    }
+  }
+}
+
+void setHeldPiece() {
+  if(heldPieceEmpty) {
+    heldPieceEmpty = false;
+    heldPiece = currentPiece;
+    heldPiece.reset();
+    int[][] ary = heldPiece.getPiece();
+    for(int i = 3; i <= 6; i++) {
+      for(int j = 0; j <= 3; j++) {
+        heldPieceDisplay[j][i - 3] = ary[j][i];
+      }
+    }
+  
+    currentPiece = nextPieces.removeFirst();
+    game.setPieceBoard(currentPiece.getPiece());
+    nextPieces.add(betterRandPiece());
+    setSidePieceDisplay();
+    boolean gameOver = game.gameTick();
+    if(!gameOver) {
+      isGameOver = true;
+    }
+  }
+  else if(heldPieceThisTurn == false) {
+    heldPieceThisTurn = true;
+    Piece temp = heldPiece;
+    heldPiece = currentPiece;
+    heldPiece.reset();
+    int[][] ary = heldPiece.getPiece();
+    for(int i = 3; i <= 6; i++) {
+      for(int j = 0; j <= 3; j++) {
+        heldPieceDisplay[j][i - 3] = ary[j][i];
+      }
+    }
+    currentPiece = temp;
+    game.setPieceBoard(currentPiece.getPiece());
+    boolean gameOver = game.gameTick();
+    if(!gameOver) {
+      isGameOver = true;
+    }
+  }
+  drawBoard(game.getDisplayBoard());
 }
 
 void mouseClicked(){

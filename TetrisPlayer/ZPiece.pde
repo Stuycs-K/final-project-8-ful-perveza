@@ -43,6 +43,45 @@ class ZPiece extends Piece{
     }
   }
   
+  public void reset() {
+    this.pieceBoard = new int[20][10];
+    xorigin = 3;
+    yorigin = 0;
+    currentRotation = 0;
+    rotations = new int[][][]{
+      { 
+        {0,0,0,0},
+        {Z,Z,0,0},
+        {0,Z,Z,0},
+        {0,0,0,0},
+      },
+      {
+        {0,0,0,0},
+        {0,Z,0,0},
+        {Z,Z,0,0},
+        {Z,0,0,0},
+      },
+      {
+        {0,0,0,0},
+        {0,0,0,0},
+        {Z,Z,0,0},
+        {0,Z,Z,0},
+      },
+      {
+        {0,0,0,0},
+        {0,0,Z,0},
+        {0,Z,Z,0},
+        {0,Z,0,0},
+      }
+    };
+    
+    for(int i = 0; i < 4; i++) {
+      for(int j = 0; j < 4; j++) {
+        pieceBoard[yorigin + i][xorigin + j] = rotations[currentRotation][i][j];
+      }
+    }
+  }
+  
   public void rotateLeft(){
     if(currentRotation == 3) {
       currentRotation = 0;

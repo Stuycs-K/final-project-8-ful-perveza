@@ -45,6 +45,46 @@ class TPiece extends Piece{
     
   }
   
+  public void reset() {
+     this.pieceBoard = new int[20][10];
+   xorigin = 3;
+    yorigin = 0;
+    currentRotation = 0;
+    rotations = new int[][][]{
+      { 
+        {0,0,0,0},
+        {0,T,0,0},
+        {T,T,T,0},
+        {0,0,0,0},
+      },
+      {
+        {0,0,0,0},
+        {0,T,0,0},
+        {T,T,0,0},
+        {0,T,0,0},
+      },
+      {
+        {0,0,0,0},
+        {0,0,0,0},
+        {T,T,T,0},
+        {0,T,0,0},
+      },
+      {
+        {0,0,0,0},
+        {0,T,0,0},
+        {0,T,T,0},
+        {0,T,0,0},
+      }
+    };
+    pieceBoard[xorigin][yorigin] = rotations[currentRotation][0][0];
+    pieceBoard[xorigin + 1][yorigin] = rotations[currentRotation][1][0];
+    for(int i = 0; i < 4; i++) {
+      for(int j = 0; j < 4; j++) {
+        pieceBoard[yorigin + i][xorigin + j] = rotations[currentRotation][i][j];
+      }
+    }
+  }
+  
   public void rotateLeft(){
     if(currentRotation == 3) {
       currentRotation = 0;
