@@ -47,6 +47,10 @@ when those pieces are exhausted).
 
 Made functions for displaying the next pieces on the side bar. Can use similar display methods for creating a hold piece function.
 
+### 6/5/23
+
+Made a holdPiece function and displayed the held piece on the side by creating related functions and variables. Next, need to start work on displaying an outline of the piece in the display.
+
 ## Arshan Pervez
 
 ### 5/22/23
