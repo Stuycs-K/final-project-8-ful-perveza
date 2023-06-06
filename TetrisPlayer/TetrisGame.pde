@@ -132,7 +132,7 @@ class TetrisGame {
   }
   
   int setNewCooldown(int level){
-    return 60-(level-1)*4;
+    return 60-(level-1)*5;
   }
   
   String setLinesName(int lines){

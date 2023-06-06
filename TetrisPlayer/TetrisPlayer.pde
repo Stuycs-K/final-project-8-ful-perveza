@@ -40,11 +40,12 @@ void setup() {
 
 void draw() {
   hardDropCooldown--;
-  if (started == false) { // start screen
+  if (started == false) {
+   // start screen
     textSize(50);
     textAlign(CENTER);
     text("TETRIS (press any key to start)", 400, 40);
-    //rect(200,40,20,20);
+    textSize(30);
     
     if (frameCount % 10 == 0) {
       int[][] testBoard = new int[20][10];
@@ -56,7 +57,8 @@ void draw() {
       }
       drawBoard(testBoard);
     }
-    
+    //fill(255);
+  //background(196);
   }
   if(isGameOver) {
     if(highScore <= score){
@@ -314,7 +316,23 @@ void drawBoard(int[][] board) {
       square(x, y, squareSize);
     }
   }
+  
+  //rect(110,340,20,20);
+  if(!started){
+  fill(255);
+  text("SELECT A LEVEL",110,300);
+  fill(196);
+  rect(90,310,40,40);
+  fill(255);
+  String s = level + "";
+  text(s, 110,340);
+  fill(255);
+  text("UP",50,370);
+  text("DOWN",170,370);
+  }
 }
+
+
 
 void drawSidePieces() {
   int squareSize = 25;
@@ -341,6 +359,17 @@ void drawSidePieces() {
       }
       square(x, y, squareSize);
     }
+  }
+}
+
+void mouseClicked(){
+  if(!started){
+  if(mouseX <= 70 && mouseX >=40 && mouseY <=400 && mouseY >= 350 && level + 1 < 11){
+    level++;
+  }
+  else if(mouseX <= 190 && mouseX >=120 && mouseY <=400 && mouseY >= 350 && level - 1 > 0){
+    level--;
+  }
   }
 }
 
