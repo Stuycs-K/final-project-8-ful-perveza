@@ -45,6 +45,46 @@ class LPiece extends Piece{
     
   }
   
+  public void reset() {
+    this.pieceBoard = new int[20][10];
+    xorigin = 3;
+    yorigin = 0;
+    currentRotation = 0;
+    rotations = new int[][][]{
+      { 
+        {0,0,0,0},
+        {0,0,L,0},
+        {L,L,L,0},
+        {0,0,0,0},
+      },
+      {
+        {0,L,L,0},
+        {0,0,L,0},
+        {0,0,L,0},
+        {0,0,0,0},
+      },
+      {
+        {0,0,0,0},
+        {L,L,L,0},
+        {L,0,0,0},
+        {0,0,0,0},
+      },
+      {
+        {0,0,0,0},
+        {L,0,0,0},
+        {L,0,0,0},
+        {L,L,0,0},
+      }
+    };
+    pieceBoard[xorigin][yorigin] = rotations[currentRotation][0][0];
+    pieceBoard[xorigin + 1][yorigin] = rotations[currentRotation][1][0];
+    for(int i = 0; i < 4; i++) {
+      for(int j = 0; j < 4; j++) {
+        pieceBoard[yorigin + i][xorigin + j] = rotations[currentRotation][i][j];
+      }
+    }
+  }
+  
   public void rotateLeft(){
     if(currentRotation == 3) {
       currentRotation = 0;
