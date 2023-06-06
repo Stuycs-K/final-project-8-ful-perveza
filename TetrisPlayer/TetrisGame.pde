@@ -37,7 +37,7 @@ class TetrisGame {
     for(int i = 0; i < currentPieceBoard.length; i++) {
       for(int j = 0; j < currentPieceBoard[i].length; j++) {
         if(currentPieceBoard[i][j] != 0) {
-          if(tempBoard[i][j] != 0) {
+          if(tempBoard[i][j] > 0) {
             return false;
           }
           else {

@@ -40,6 +40,16 @@ class Piece{
   public void reset(){
   }
   
+  public void makeGhost() {
+    for(int i = 0; i < pieceBoard.length; i++) {
+      for(int j = 0; j < pieceBoard.length; j++) {
+        if(pieceBoard[i][j] > 0) {
+          pieceBoard[i][j] = -1;
+        }
+      }
+    }
+  }
+  
   
   
   
