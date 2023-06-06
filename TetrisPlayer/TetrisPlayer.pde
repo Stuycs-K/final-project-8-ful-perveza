@@ -344,6 +344,12 @@ void drawBoard(int[][] board) {
   text("UP",50,370);
   text("DOWN",170,370);
   }
+  
+  if(started){
+    rect(675,275,50,50);
+    fill(0);
+    text("P",700,310);
+  }
 }
 
 
