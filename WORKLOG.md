@@ -73,3 +73,6 @@ Created a system to keep track of scoring at the sides, as well as implemented m
 
 ### 5/28-6/1
 Created more instructions after gameover for in game clarity. Created various methods/timekeeping to temporarily display last score methods, if there was a score. created a highscore system, as well as level system that makes the pieces fall faster. Made the game itself a bit more slower/choppy for easier handling.
+
+### 6/2-6/5
+Refined highscore system to consistently show actual highScores through various playthroughs, as well as refined level system to accuately show fall speeds. Created buttons at start screen to also let players be able to select levels.
