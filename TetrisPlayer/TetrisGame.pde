@@ -23,6 +23,16 @@ class TetrisGame {
           displayBoard[i][j] = tempBoard[i][j];
         }
       }
+    game.makeOutline();
+    for(int i = 0; i < currentPieceBoard.length; i++) {
+        for(int j = 0; j < currentPieceBoard[i].length; j++) {
+          if(currentPieceBoard[i][j] != 0) {
+            if(displayBoard[i][j] == -1) {
+              displayBoard[i][j] = currentPieceBoard[i][j];
+            }
+          }
+        }
+      }
       return true;
     }
     return false;
@@ -80,7 +90,6 @@ class TetrisGame {
   }
   
   int[][] getDisplayBoard() {
-    game.makeOutline();
     return displayBoard;
   }
   
@@ -97,6 +106,7 @@ class TetrisGame {
   }
   
   void makeOutline() {
+    int counter = 0;
       while(true) {
         if (!shiftPieceDown()) {
           break;
@@ -107,14 +117,17 @@ class TetrisGame {
             shiftUp();
             break;
           }
+          counter++;
         }
       }
-      for(int i = 0; i < tempPieceBoard.length; i++) {
+      if(counter > 0) {
+        for(int i = 0; i < tempPieceBoard.length; i++) {
           for(int j = 0; j < tempPieceBoard[i].length; j++) {
-            if(tempPieceBoard[i][j] != 0) {
+            if(tempPieceBoard[i][j] != 0 && setBoard[i][j] == 0) {
               displayBoard[i][j] = -1;
             }
           }
+        }
       }
   }
   
