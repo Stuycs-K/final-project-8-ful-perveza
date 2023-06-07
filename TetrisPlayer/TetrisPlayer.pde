@@ -19,9 +19,7 @@ boolean isPaused;
 boolean started;
 boolean isGameOver;
 Piece currentPiece;
-Piece ghostPiece;
 TetrisGame game;
-TetrisGame outline;
 Controller keyboardInput;
 int cooldown;
 int fallCooldown;
@@ -272,7 +270,6 @@ void pauseGame() {
 void startGame() {
   background(196);
   game = new TetrisGame();
-  outline = new TetrisGame();
   passed = millis();
   scoreName = "";
   //highScore = 0;
@@ -284,7 +281,6 @@ void startGame() {
   generatePieces();
   currentPiece = betterRandPiece();
   game.setPieceBoard(currentPiece.getPiece());
-  outline.setPieceBoard(currentPiece.getPiece());
   keyboardInput = new Controller();
   cooldown = 0;
   fallCooldown = 0;

@@ -43,7 +43,7 @@ class TetrisGame {
             return false;
           }
           else {
-          tempBoard[i][j] = currentPieceBoard[i][j];;
+            tempBoard[i][j] = currentPieceBoard[i][j];
           }
         }
       }
@@ -80,6 +80,7 @@ class TetrisGame {
   }
   
   int[][] getDisplayBoard() {
+    game.makeOutline();
     return displayBoard;
   }
   
@@ -100,33 +101,29 @@ class TetrisGame {
         if (!shiftPieceDown()) {
           break;
         } 
-        boolean tick = copyOverBoardTemp();
-        if (!tick) {
-          break;
+        else {
+          boolean tick = copyOverBoardTemp();
+          if (!tick) {
+            shiftUp();
+            break;
+          }
         }
       }
       for(int i = 0; i < tempPieceBoard.length; i++) {
-        for(int j = 0; j < tempPieceBoard[i].length; j++) {
-          if(tempPieceBoard[i][j] != 0) {
-            displayBoard[i][j] = -1;
+          for(int j = 0; j < tempPieceBoard[i].length; j++) {
+            if(tempPieceBoard[i][j] != 0) {
+              displayBoard[i][j] = -1;
+            }
           }
-        }
       }
   }
   
   boolean shiftPieceDown() {
-    int[][] tempPieceBoard = new int[20][10];
-    for(int i = 0; i < currentPieceBoard.length; i++) {
-       for(int j = 0; j < currentPieceBoard[i].length; j++) {
-         tempPieceBoard[i][j] = currentPieceBoard[i][j];
-       }
-    }
     boolean isShifted = false;
     for(int i = 0; i  < tempPieceBoard[0].length; i++){
-      if(currentPieceBoard[19][i] != 0){
+      if(tempPieceBoard[19][i] != 0){
         return false;
       }
-      
     }
     for(int row = tempPieceBoard.length - 1; row > 0; row--) {
       for(int col = 0; col < tempPieceBoard[row].length; col++) {
@@ -135,6 +132,26 @@ class TetrisGame {
           int temp = tempPieceBoard[row - 1][col];
           tempPieceBoard[row - 1][col] = 0;
           tempPieceBoard[row][col] = temp;
+        }
+      }
+    }
+    return isShifted;
+  }
+  
+  boolean shiftUp() {
+    boolean isShifted = false;
+    for(int i = 0; i  < tempPieceBoard[0].length; i++){
+      if(tempPieceBoard[3][i] != 0){
+        return false;
+      }
+    }
+    for(int row = 1; row < tempPieceBoard.length; row++) {
+      for(int col = 0; col < tempPieceBoard[row].length; col++) {
+        if(tempPieceBoard[row - 1][col] == 0 && tempPieceBoard[row][col] != 0) {
+          isShifted = true;
+          int temp = tempPieceBoard[row][col];
+          tempPieceBoard[row - 1][col] = temp;
+          tempPieceBoard[row][col] = 0;
         }
       }
     }
@@ -157,7 +174,7 @@ class TetrisGame {
     int counter = 0;
     for(int i = 0; i < setBoard.length; i++){
       for(int j = 0; j < setBoard[0].length; j++){
-        if(setBoard[i][j] != 0){
+        if(setBoard[i][j] > 0){
           counter++;
         }
       }
