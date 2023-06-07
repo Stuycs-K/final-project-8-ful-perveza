@@ -320,7 +320,7 @@ void drawBoard(int[][] board) {
       if (currentColor == I) { // I tetrominoe is cyan
         fill(0, 255, 255);
       } else if (currentColor == O) { // O is yellow
-        fill(255, 255, 0);
+        fill(231, 240, 17);
       } else if (currentColor == T) { // T is purple
         fill(255, 0, 255);
       } else if (currentColor == S) { // S is green
