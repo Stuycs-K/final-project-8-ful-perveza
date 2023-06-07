@@ -352,10 +352,10 @@ void drawBoard(int[][] board) {
   text("DOWN",170,370);
   }
   
-  if(started){
-    rect(675,275,50,50);
+  if(started && !isGameOver){
+    rect(675,15,50,50);
     fill(0);
-    text("P",700,310);
+    text("P",700,50);
   }
 }
 
@@ -468,7 +468,7 @@ void mouseClicked(){
     level--;
   }
 }
-if(mouseX <= 810 && mouseX >=660 && mouseY <=330 && mouseY >= 270){
+if(mouseX <= 810 && mouseX >=660 && mouseY <=170 && mouseY >= 10){
     pauseGame();
   }
 }
