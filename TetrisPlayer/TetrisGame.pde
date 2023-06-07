@@ -24,15 +24,6 @@ class TetrisGame {
         }
       }
     game.makeOutline();
-    for(int i = 0; i < currentPieceBoard.length; i++) {
-        for(int j = 0; j < currentPieceBoard[i].length; j++) {
-          if(currentPieceBoard[i][j] != 0) {
-            if(displayBoard[i][j] == -1) {
-              displayBoard[i][j] = currentPieceBoard[i][j];
-            }
-          }
-        }
-      }
       return true;
     }
     return false;
@@ -120,11 +111,22 @@ class TetrisGame {
           counter++;
         }
       }
-      if(counter > 0) {
+      println(counter);
+      if(counter > 1) {
         for(int i = 0; i < tempPieceBoard.length; i++) {
           for(int j = 0; j < tempPieceBoard[i].length; j++) {
             if(tempPieceBoard[i][j] != 0 && setBoard[i][j] == 0) {
               displayBoard[i][j] = -1;
+            }
+          }
+        }
+      }
+     for(int i = 0; i < currentPieceBoard.length; i++) {
+        for(int j = 0; j < currentPieceBoard[i].length; j++) {
+          if(currentPieceBoard[i][j] != 0) {
+            if(displayBoard[i][j] == -1) {
+              displayBoard[i][j] = currentPieceBoard[i][j];
+              //erased = true;
             }
           }
         }
