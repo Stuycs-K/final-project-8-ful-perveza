@@ -80,3 +80,6 @@ Created more instructions after gameover for in game clarity. Created various me
 
 ### 6/2-6/5
 Refined highscore system to consistently show actual highScores through various playthroughs, as well as refined level system to accuately show fall speeds. Created buttons at start screen to also let players be able to select levels.
+
+### 6/6
+Added a pause button and ability to pause/resume the game.
