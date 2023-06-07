@@ -4,12 +4,14 @@ class TetrisGame {
   int[][] setBoard;
   int[][] currentPieceBoard;
   int[][] tempBoard;
+  int[][] tempPieceBoard;
   
   public TetrisGame() {
     displayBoard = new int[20][10];
     setBoard = new int[20][10];
     currentPieceBoard = new int[20][10];
     tempBoard = new int[20][10];
+    tempPieceBoard = new int[20][10];
   }
   
   boolean gameTick() {
@@ -49,6 +51,26 @@ class TetrisGame {
     return true;
   }
   
+  boolean copyOverBoardTemp() {
+    // compare non-zero values of tempPieceBoard with tempBoard
+    tempBoard = new int[20][10];
+    for(int i = 0; i < tempPieceBoard.length; i++) {
+      for(int j = 0; j < tempPieceBoard[i].length; j++) {
+        tempBoard[i][j] = setBoard[i][j];
+      }
+    }
+    for(int i = 0; i < tempPieceBoard.length; i++) {
+      for(int j = 0; j < tempPieceBoard[i].length; j++) {
+        if(tempPieceBoard[i][j] != 0) {
+          if(tempBoard[i][j] > 0) {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  }
+  
   void newSetBoard() {
     for(int i = 0; i < displayBoard.length; i++) {
       for(int j = 0; j < displayBoard[i].length; j++) {
@@ -73,11 +95,59 @@ class TetrisGame {
     return setBoard;
   }
   
+  void makeOutline() {
+      while(true) {
+        if (!shiftPieceDown()) {
+          break;
+        } 
+        boolean tick = copyOverBoardTemp();
+        if (!tick) {
+          break;
+        }
+      }
+      for(int i = 0; i < tempPieceBoard.length; i++) {
+        for(int j = 0; j < tempPieceBoard[i].length; j++) {
+          if(tempPieceBoard[i][j] != 0) {
+            displayBoard[i][j] = -1;
+          }
+        }
+      }
+  }
+  
+  boolean shiftPieceDown() {
+    int[][] tempPieceBoard = new int[20][10];
+    for(int i = 0; i < currentPieceBoard.length; i++) {
+       for(int j = 0; j < currentPieceBoard[i].length; j++) {
+         tempPieceBoard[i][j] = currentPieceBoard[i][j];
+       }
+    }
+    boolean isShifted = false;
+    for(int i = 0; i  < tempPieceBoard[0].length; i++){
+      if(currentPieceBoard[19][i] != 0){
+        return false;
+      }
+      
+    }
+    for(int row = tempPieceBoard.length - 1; row > 0; row--) {
+      for(int col = 0; col < tempPieceBoard[row].length; col++) {
+        if(tempPieceBoard[row][col] == 0 && tempPieceBoard[row - 1][col] != 0) {
+          isShifted = true;
+          int temp = tempPieceBoard[row - 1][col];
+          tempPieceBoard[row - 1][col] = 0;
+          tempPieceBoard[row][col] = temp;
+        }
+      }
+    }
+    return isShifted;
+  }
+  
   void setPieceBoard(int[][] newPieceBoard) {
     currentPieceBoard = new int[20][10];
+    tempPieceBoard = new int[20][10];
     for(int i = 0; i < currentPieceBoard.length; i++) {
        for(int j = 0; j < currentPieceBoard[i].length; j++) {
          currentPieceBoard[i][j] = newPieceBoard[i][j];
+         tempPieceBoard[i][j] = newPieceBoard[i][j];
        }
     }
   }

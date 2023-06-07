@@ -266,24 +266,6 @@ void hardDrop() {
   drawBoard(game.getDisplayBoard());
 }
 
-void makeOutline() {
-  ghostPiece = currentPiece;
-  outline.setPieceBoard(ghostPiece.getPiece());
-  while(true) {
-    if(!ghostPiece.shiftDown()) {
-      break;
-    }
-    else {
-      outline.setPieceBoard(ghostPiece.getPiece());
-      boolean tick = outline.gameTick();
-      if (!tick) {
-        break;
-      }
-    }
-  }
-  
-}
-
 void pauseGame() {
 }
 
@@ -346,7 +328,9 @@ void drawBoard(int[][] board) {
         fill(0, 0, 255);
       } else if (currentColor == L) { // L is orange
         fill(255, 127, 0);
-      } else {
+      } else if(currentColor == -1) {
+        fill(128,128,128);
+      }else {
         fill(255, 255, 255);
       }
       square(x, y, squareSize);
