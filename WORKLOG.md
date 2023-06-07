@@ -51,6 +51,10 @@ Made functions for displaying the next pieces on the side bar. Can use similar d
 
 Made a holdPiece function and displayed the held piece on the side by creating related functions and variables. Next, need to start work on displaying an outline of the piece in the display.
 
+### 6/6/23
+
+Made most of a piece outline function, but has a small error when a piece spawns at the top. Need to fix it.
+
 ## Arshan Pervez
 
 ### 5/22/23
