@@ -460,6 +460,9 @@ void mouseClicked(){
   else if(mouseX <= 190 && mouseX >=120 && mouseY <=400 && mouseY >= 350 && level - 1 > 0){
     level--;
   }
+}
+if(mouseX <= 810 && mouseX >=660 && mouseY <=330 && mouseY >= 270){
+    
   }
 }
 
