@@ -5,6 +5,7 @@ int score;
 SoundFile file;
 int highScore;
 int level;
+boolean paused;
 String scoreName = "";
 int play;
 int lines;
@@ -265,6 +266,11 @@ void hardDrop() {
 }
 
 void pauseGame() {
+  isPaused = !isPaused;
+  if(isPaused == true){
+    fill(0);
+    text("GAME IS PAUSED, CLICK AGAIN TO RESUME!",400,780);
+  }
 }
 
 void startGame() {
@@ -276,6 +282,7 @@ void startGame() {
   scoreTime = 2000;
   //highScore = 0;
   isPaused = false;
+  paused = false;
   started = false;
   isGameOver = false;
   generatePieces();
@@ -462,7 +469,7 @@ void mouseClicked(){
   }
 }
 if(mouseX <= 810 && mouseX >=660 && mouseY <=330 && mouseY >= 270){
-    
+    pauseGame();
   }
 }
 
