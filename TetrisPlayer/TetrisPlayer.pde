@@ -170,6 +170,9 @@ void draw() {
 }
 
 void keyPressed() {
+  if(keyCode == 'P' && started){
+      pauseGame();
+    }
   if (started == false) {
     started = true;
   } 
