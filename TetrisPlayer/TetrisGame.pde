@@ -148,6 +148,9 @@ class TetrisGame {
     if(lines == 4){
       return "TETRIS!";
     }
+    else if(lines > 4){
+      return "NICE!";
+    }
     else{
       return "";
     }

@@ -5,6 +5,7 @@ int score;
 SoundFile file;
 int highScore;
 int level;
+boolean paused;
 String scoreName = "";
 int play;
 int lines;
@@ -169,6 +170,9 @@ void draw() {
 }
 
 void keyPressed() {
+  if(keyCode == 'P' && started){
+      pauseGame();
+    }
   if (started == false) {
     started = true;
   } 
@@ -265,6 +269,11 @@ void hardDrop() {
 }
 
 void pauseGame() {
+  isPaused = !isPaused;
+  if(isPaused == true){
+    fill(0);
+    text("GAME IS PAUSED, CLICK AGAIN TO RESUME!",400,780);
+  }
 }
 
 void startGame() {
@@ -276,6 +285,7 @@ void startGame() {
   scoreTime = 2000;
   //highScore = 0;
   isPaused = false;
+  paused = false;
   started = false;
   isGameOver = false;
   generatePieces();
@@ -313,7 +323,7 @@ void drawBoard(int[][] board) {
       if (currentColor == I) { // I tetrominoe is cyan
         fill(0, 255, 255);
       } else if (currentColor == O) { // O is yellow
-        fill(255, 255, 0);
+        fill(231, 240, 17);
       } else if (currentColor == T) { // T is purple
         fill(255, 0, 255);
       } else if (currentColor == S) { // S is green
@@ -345,10 +355,10 @@ void drawBoard(int[][] board) {
   text("DOWN",170,370);
   }
   
-  if(started){
-    rect(675,275,50,50);
+  if(started && !isGameOver){
+    rect(675,15,50,50);
     fill(0);
-    text("P",700,310);
+    text("P",700,50);
   }
 }
 
@@ -460,6 +470,9 @@ void mouseClicked(){
   else if(mouseX <= 190 && mouseX >=120 && mouseY <=400 && mouseY >= 350 && level - 1 > 0){
     level--;
   }
+}
+if(mouseX <= 810 && mouseX >=660 && mouseY <=170 && mouseY >= 10){
+    pauseGame();
   }
 }
 
