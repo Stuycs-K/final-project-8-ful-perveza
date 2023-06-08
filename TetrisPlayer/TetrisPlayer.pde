@@ -3,6 +3,7 @@ import processing.sound.*;
 
 int score;
 SoundFile file;
+SoundFile file2;
 int highScore;
 int level;
 boolean paused;
@@ -41,6 +42,7 @@ void setup() {
   bg = loadImage("tetris3.png");
   size(800, 800);
   file = new SoundFile(this, "Tetris.wav");
+  file2 = new SoundFile(this, "vine-boom.wav");
   file.loop();
   startGame();
 }
@@ -70,6 +72,9 @@ void draw() {
   if(isGameOver) {
     if(highScore <= score){
       highScore = score;
+      String hi = str(highScore);
+      String[] scoreKeep = split(hi,' ');
+      saveStrings("score.txt",scoreKeep);
     }
     play++;
     background(bg);
@@ -150,7 +155,7 @@ void draw() {
         newPiece();
       } else {
         score++;
-      if(play == 0){
+      if(play == 0 && highScore == 0){
         highScore++;
       }
         game.setPieceBoard(currentPiece.getPiece());
@@ -218,7 +223,9 @@ void newPiece() {
   //delay(500);
   game.newSetBoard();
   int x = game.clearLines();
-  
+  if(x > 0){
+    file2.play();
+  }
   lines += x;
   if(millis() - passed > scoreTime){
     scoreName = game.setLinesName(x);
@@ -234,7 +241,7 @@ void newPiece() {
   //  //fallCooldown-=10;
   //}
   score+=game.scoreAdd(level,x);
-  if(play == 0){
+  if(play == 0 && highScore == 0){
     highScore+=game.scoreAdd(level,x);
   }
   currentPiece = nextPieces.removeFirst();
@@ -256,7 +263,7 @@ void hardDrop() {
     } 
     else {
       score+=2;
-      if(play == 0){
+      if(play == 0 && highScore == 0){
         highScore += 2;
       }
       game.setPieceBoard(currentPiece.getPiece());
@@ -285,6 +292,8 @@ void startGame() {
   scoreName = "";
   //highScore = 0;
   scoreTime = 2000;
+  String[] scores = loadStrings("score.txt");
+  highScore = Integer.parseInt(scores[0]);
   //highScore = 0;
   isPaused = false;
   paused = false;
