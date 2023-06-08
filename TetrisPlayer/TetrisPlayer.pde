@@ -28,6 +28,7 @@ int gameOverCooldown;
 int hardDropCooldown;
 int[][] sidePieces;
 int[][] heldPieceDisplay;
+PImage bg;
 public static final int I = 1;
 public static final int O = 2;
 public static final int T = 3;
@@ -37,6 +38,7 @@ public static final int J = 6;
 public static final int L = 7;
 
 void setup() {
+  bg = loadImage("tetris3.png");
   size(800, 800);
   file = new SoundFile(this, "Tetris.wav");
   file.loop();
@@ -70,9 +72,9 @@ void draw() {
       highScore = score;
     }
     play++;
-    background(196);
+    background(bg);
     textSize(30);
-    fill(0, 0, 0);
+    fill(255);
     textAlign(CENTER);
     text("GAME OVER (SCORE: " + score +") PRESS ANY KEY TO RESTART", 400, 40);
     drawBoard(game.getDisplayBoard());
@@ -103,9 +105,9 @@ void draw() {
   }
   if (started && !isPaused && frameCount % 6 == 0 && !isGameOver) {
     // enter game loop
-    background(196);
+    background(bg);
     textSize(50);
-    fill(0,0,0);
+    fill(255);
     textAlign(CENTER);
     text("TETRIS",400,40);
     text("HOLD",105,70);
@@ -271,13 +273,13 @@ void hardDrop() {
 void pauseGame() {
   isPaused = !isPaused;
   if(isPaused == true){
-    fill(0);
+    fill(255);
     text("GAME IS PAUSED, CLICK AGAIN TO RESUME!",400,780);
   }
 }
 
 void startGame() {
-  background(196);
+  background(bg);
   game = new TetrisGame();
   passed = millis();
   scoreName = "";
