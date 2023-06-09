@@ -16,6 +16,12 @@ get more difficult. A game over is reached when no new pieces can enter the scre
 Required Libraries in Processing:
   - Sound by the Processing Foundation
 
+Start Screen:
+  - Level: Select a level from 1-10 to start with by clicking on "UP" or "DOWN". The higher the level, the faster the pieces fall automatically.
+  - Mode: Select a mode by either clicking on the blue or red box.
+    - Heaven: Standard random piece generation (generates and shuffles a bag of the seven pieces), hold piece available, and next pieces are visible. This is the basic standard for modern Tetris.
+    - Hell: Chaotic random piece generation (generates each piece with a 1/7 chance every time, usually leads to unlucky streaks), hold piece disabled, and next pieces are invisible.
+
 Controls:
   - Left arrow: Move piece to the left
   - Right arrow: Move piece to the right
