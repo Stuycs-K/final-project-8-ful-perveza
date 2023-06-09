@@ -55,6 +55,10 @@ Made a holdPiece function and displayed the held piece on the side by creating r
 
 Made most of a piece outline function, but has a small error when a piece spawns at the top. Need to fix it.
 
+### 6/8/23
+
+Made fix to piece outline, works well now. Need to finalize finishing touches during Friday and over the weekend.
+
 ## Arshan Pervez
 
 ### 5/22/23
