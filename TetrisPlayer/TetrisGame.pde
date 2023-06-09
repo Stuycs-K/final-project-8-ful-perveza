@@ -5,7 +5,7 @@ class TetrisGame {
   int[][] currentPieceBoard;
   int[][] tempBoard;
   int[][] tempPieceBoard;
-  
+
   public TetrisGame() {
     displayBoard = new int[20][10];
     setBoard = new int[20][10];
@@ -13,37 +13,36 @@ class TetrisGame {
     tempBoard = new int[20][10];
     tempPieceBoard = new int[20][10];
   }
-  
+
   boolean gameTick() {
     boolean tick = copyOverBoard();
-    if(tick) {
+    if (tick) {
       displayBoard = new int[20][10];
-      for(int i = 0; i < displayBoard.length; i++) {
-        for(int j = 0; j < displayBoard[i].length; j++) {
+      for (int i = 0; i < displayBoard.length; i++) {
+        for (int j = 0; j < displayBoard[i].length; j++) {
           displayBoard[i][j] = tempBoard[i][j];
         }
       }
-    game.makeOutline();
+      makeOutline();
       return true;
     }
     return false;
   }
-  
+
   boolean copyOverBoard() {
     // compare non-zero values of currentPieceBoard with tempBoard
     tempBoard = new int[20][10];
-    for(int i = 0; i < currentPieceBoard.length; i++) {
-      for(int j = 0; j < currentPieceBoard[i].length; j++) {
+    for (int i = 0; i < currentPieceBoard.length; i++) {
+      for (int j = 0; j < currentPieceBoard[i].length; j++) {
         tempBoard[i][j] = setBoard[i][j];
       }
     }
-    for(int i = 0; i < currentPieceBoard.length; i++) {
-      for(int j = 0; j < currentPieceBoard[i].length; j++) {
-        if(currentPieceBoard[i][j] != 0) {
-          if(tempBoard[i][j] > 0) {
+    for (int i = 0; i < currentPieceBoard.length; i++) {
+      for (int j = 0; j < currentPieceBoard[i].length; j++) {
+        if (currentPieceBoard[i][j] != 0) {
+          if (tempBoard[i][j] > 0) {
             return false;
-          }
-          else {
+          } else {
             tempBoard[i][j] = currentPieceBoard[i][j];
           }
         }
@@ -51,19 +50,19 @@ class TetrisGame {
     }
     return true;
   }
-  
+
   boolean copyOverBoardTemp() {
     // compare non-zero values of tempPieceBoard with tempBoard
     tempBoard = new int[20][10];
-    for(int i = 0; i < tempPieceBoard.length; i++) {
-      for(int j = 0; j < tempPieceBoard[i].length; j++) {
+    for (int i = 0; i < tempPieceBoard.length; i++) {
+      for (int j = 0; j < tempPieceBoard[i].length; j++) {
         tempBoard[i][j] = setBoard[i][j];
       }
     }
-    for(int i = 0; i < tempPieceBoard.length; i++) {
-      for(int j = 0; j < tempPieceBoard[i].length; j++) {
-        if(tempPieceBoard[i][j] != 0) {
-          if(tempBoard[i][j] > 0) {
+    for (int i = 0; i < tempPieceBoard.length; i++) {
+      for (int j = 0; j < tempPieceBoard[i].length; j++) {
+        if (tempPieceBoard[i][j] != 0) {
+          if (tempBoard[i][j] > 0) {
             return false;
           }
         }
@@ -71,78 +70,80 @@ class TetrisGame {
     }
     return true;
   }
-  
+
   void newSetBoard() {
-    for(int i = 0; i < displayBoard.length; i++) {
-      for(int j = 0; j < displayBoard[i].length; j++) {
-         setBoard[i][j] = displayBoard[i][j];
+    for (int i = 0; i < displayBoard.length; i++) {
+      for (int j = 0; j < displayBoard[i].length; j++) {
+        setBoard[i][j] = displayBoard[i][j];
       }
-   }
+    }
   }
-  
+
   int[][] getDisplayBoard() {
     return displayBoard;
   }
-  
+
   int[][] getPiece() {
     return currentPieceBoard;
   }
-  
+
   int[][] getTemp() {
     return tempBoard;
   }
-  
+
   int[][] getSet() {
     return setBoard;
   }
-  
+
   void makeOutline() {
-    int counter = 0;
-      while(true) {
-        if (!shiftPieceDown()) {
+    tempPieceBoard = new int[20][10];
+    for (int i = 0; i < currentPieceBoard.length; i++) {
+      for (int j = 0; j < currentPieceBoard[i].length; j++) {
+        tempPieceBoard[i][j] = currentPieceBoard[i][j];
+      }
+    }
+    while (true) {
+      if (!shiftPieceDown()) {
+        break;
+      } 
+      else {
+        boolean tick = copyOverBoardTemp();
+        if (!tick) {
+          shiftUp();
           break;
-        } 
-        else {
-          boolean tick = copyOverBoardTemp();
-          if (!tick) {
-            shiftUp();
-            break;
-          }
-          counter++;
         }
       }
-      println(counter);
-      if(counter > 1) {
-        for(int i = 0; i < tempPieceBoard.length; i++) {
-          for(int j = 0; j < tempPieceBoard[i].length; j++) {
-            if(tempPieceBoard[i][j] != 0 && setBoard[i][j] == 0) {
+    }
+    for (int i = 0; i < tempPieceBoard.length; i++) {
+        for (int j = 0; j < tempPieceBoard[i].length; j++) {
+          if (tempPieceBoard[i][j] != 0) {
+            if(displayBoard[i][j] == 0) {
               displayBoard[i][j] = -1;
             }
           }
         }
       }
-     for(int i = 0; i < currentPieceBoard.length; i++) {
-        for(int j = 0; j < currentPieceBoard[i].length; j++) {
-          if(currentPieceBoard[i][j] != 0) {
-            if(displayBoard[i][j] == -1) {
-              displayBoard[i][j] = currentPieceBoard[i][j];
-              //erased = true;
-            }
+    for (int i = 0; i < currentPieceBoard.length; i++) {
+      for (int j = 0; j < currentPieceBoard[i].length; j++) {
+        if (currentPieceBoard[i][j] != 0) {
+          if (displayBoard[i][j] == -1) {
+            displayBoard[i][j] = currentPieceBoard[i][j];
           }
         }
       }
+    }
   }
-  
+
   boolean shiftPieceDown() {
     boolean isShifted = false;
-    for(int i = 0; i  < tempPieceBoard[0].length; i++){
-      if(tempPieceBoard[19][i] != 0){
+    for (int i = 0; i  < tempPieceBoard[0].length; i++) {
+      if (tempPieceBoard[19][i] != 0) {
         return false;
       }
     }
-    for(int row = tempPieceBoard.length - 1; row > 0; row--) {
-      for(int col = 0; col < tempPieceBoard[row].length; col++) {
-        if(tempPieceBoard[row][col] == 0 && tempPieceBoard[row - 1][col] != 0) {
+    for (int row = tempPieceBoard.length - 1; row > 0; row--) {
+      for (int col = 0; col < tempPieceBoard[row].length; col++) {
+        if (tempPieceBoard[row][col] == 0 && tempPieceBoard[row - 1][col] != 0) {
           isShifted = true;
           int temp = tempPieceBoard[row - 1][col];
           tempPieceBoard[row - 1][col] = 0;
@@ -152,17 +153,17 @@ class TetrisGame {
     }
     return isShifted;
   }
-  
+
   boolean shiftUp() {
     boolean isShifted = false;
-    for(int i = 0; i  < tempPieceBoard[0].length; i++){
-      if(tempPieceBoard[3][i] != 0){
-        return false;
-      }
-    }
-    for(int row = 1; row < tempPieceBoard.length; row++) {
-      for(int col = 0; col < tempPieceBoard[row].length; col++) {
-        if(tempPieceBoard[row - 1][col] == 0 && tempPieceBoard[row][col] != 0) {
+    //for (int i = 0; i  < tempPieceBoard[0].length; i++) {
+    //  if (tempPieceBoard[3][i] != 0) {
+    //    return false;
+    //  }
+    //}
+    for (int row = 1; row < tempPieceBoard.length; row++) {
+      for (int col = 0; col < tempPieceBoard[row].length; col++) {
+        if (tempPieceBoard[row - 1][col] == 0 && tempPieceBoard[row][col] != 0) {
           isShifted = true;
           int temp = tempPieceBoard[row][col];
           tempPieceBoard[row - 1][col] = temp;
@@ -172,35 +173,33 @@ class TetrisGame {
     }
     return isShifted;
   }
-  
+
   void setPieceBoard(int[][] newPieceBoard) {
     currentPieceBoard = new int[20][10];
-    tempPieceBoard = new int[20][10];
-    for(int i = 0; i < currentPieceBoard.length; i++) {
-       for(int j = 0; j < currentPieceBoard[i].length; j++) {
-         currentPieceBoard[i][j] = newPieceBoard[i][j];
-         tempPieceBoard[i][j] = newPieceBoard[i][j];
-       }
+    for (int i = 0; i < currentPieceBoard.length; i++) {
+      for (int j = 0; j < currentPieceBoard[i].length; j++) {
+        currentPieceBoard[i][j] = newPieceBoard[i][j];
+      }
     }
   }
-  
-  int clearLines(){
+
+  int clearLines() {
     int lines = 0;
     int counter = 0;
-    for(int i = 0; i < setBoard.length; i++){
-      for(int j = 0; j < setBoard[0].length; j++){
-        if(setBoard[i][j] > 0){
+    for (int i = 0; i < setBoard.length; i++) {
+      for (int j = 0; j < setBoard[0].length; j++) {
+        if (setBoard[i][j] > 0) {
           counter++;
         }
       }
-      if(counter == setBoard[0].length){
+      if (counter == setBoard[0].length) {
         lines ++;
-        for(int o = 0; o < setBoard[i].length; o++){
+        for (int o = 0; o < setBoard[i].length; o++) {
           setBoard[i][o] = 0;
         }
         int w = i;
-        for(int a = i; a >= 1; a--){
-          for(int p = 0; p < setBoard[0].length; p++){
+        for (int a = i; a >= 1; a--) {
+          for (int p = 0; p < setBoard[0].length; p++) {
             setBoard[a][p] = setBoard[a-1][p];
             setBoard[a-1][p] = 0;
           }
@@ -211,48 +210,43 @@ class TetrisGame {
       counter = 0;
     }
     return lines;
-    
   }
-  
-  int scoreAdd(int level, int lines){
-    if(lines == 1){
+
+  int scoreAdd(int level, int lines) {
+    if (lines == 1) {
       return 100*(level);
     }
-    if(lines == 2){
+    if (lines == 2) {
       return 300*(level);
     }
-    if(lines == 3){
+    if (lines == 3) {
       return 500*(level);
     }
-    if(lines == 4){
+    if (lines == 4) {
       return 800*(level);
-    }
-    else{
+    } else {
       return 0;
     }
-    
   }
-  
-  int setNewCooldown(int level){
+
+  int setNewCooldown(int level) {
     return 60-(level-1)*5;
   }
-  
-  String setLinesName(int lines){
-    if(lines == 1){
+
+  String setLinesName(int lines) {
+    if (lines == 1) {
       return "SINGLE!";
     }
-    if(lines == 2){
+    if (lines == 2) {
       return "DOUBLE!";
     }
-    if(lines == 3){
+    if (lines == 3) {
       return "TRIPLE!";
     }
-    if(lines == 4){
+    if (lines == 4) {
       return "TETRIS!";
-    }
-    else{
+    } else {
       return "";
     }
   }
-  
 }

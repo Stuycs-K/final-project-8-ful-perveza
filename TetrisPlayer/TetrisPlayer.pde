@@ -90,12 +90,14 @@ void draw() {
   //}
     if (!currentPiece.shiftDown()) {
       newPiece();
+      drawBoard(game.getDisplayBoard());
     } 
     else {
       game.setPieceBoard(currentPiece.getPiece());
       boolean tick = game.gameTick();
       if (!tick) {
         newPiece();
+        drawBoard(game.getDisplayBoard());
       }
     }
     drawBoard(game.getDisplayBoard());
