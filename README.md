@@ -22,4 +22,5 @@ Controls:
   - Down arrow: Accelerate piece downward
   - Z: Rotate piece left
   - X: Rotate pieces right
+  - C: Hold current piece
   - Spacebar: Hard drop pieces (piece fits down instantly)
