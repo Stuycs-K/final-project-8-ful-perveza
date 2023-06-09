@@ -3,8 +3,10 @@ import processing.sound.*;
 
 int score;
 SoundFile file;
+SoundFile file2;
 int highScore;
 int level;
+boolean paused;
 String scoreName = "";
 int play;
 int lines;
@@ -27,6 +29,7 @@ int gameOverCooldown;
 int hardDropCooldown;
 int[][] sidePieces;
 int[][] heldPieceDisplay;
+PImage bg;
 public static final int I = 1;
 public static final int O = 2;
 public static final int T = 3;
@@ -36,8 +39,10 @@ public static final int J = 6;
 public static final int L = 7;
 
 void setup() {
+  bg = loadImage("tetris3.png");
   size(800, 800);
   file = new SoundFile(this, "Tetris.wav");
+  file2 = new SoundFile(this, "vine-boom.wav");
   file.loop();
   startGame();
 }
@@ -67,11 +72,14 @@ void draw() {
   if(isGameOver) {
     if(highScore <= score){
       highScore = score;
+      String hi = str(highScore);
+      String[] scoreKeep = split(hi,' ');
+      saveStrings("score.txt",scoreKeep);
     }
     play++;
-    background(196);
+    background(bg);
     textSize(30);
-    fill(0, 0, 0);
+    fill(255);
     textAlign(CENTER);
     text("GAME OVER (SCORE: " + score +") PRESS ANY KEY TO RESTART", 400, 40);
     drawBoard(game.getDisplayBoard());
@@ -90,21 +98,23 @@ void draw() {
   //}
     if (!currentPiece.shiftDown()) {
       newPiece();
+      drawBoard(game.getDisplayBoard());
     } 
     else {
       game.setPieceBoard(currentPiece.getPiece());
       boolean tick = game.gameTick();
       if (!tick) {
         newPiece();
+        drawBoard(game.getDisplayBoard());
       }
     }
     drawBoard(game.getDisplayBoard());
   }
   if (started && !isPaused && frameCount % 6 == 0 && !isGameOver) {
     // enter game loop
-    background(196);
+    background(bg);
     textSize(50);
-    fill(0,0,0);
+    fill(255);
     textAlign(CENTER);
     text("TETRIS",400,40);
     text("HOLD",105,70);
@@ -147,7 +157,7 @@ void draw() {
         newPiece();
       } else {
         score++;
-      if(play == 0){
+      if(play == 0 && highScore == 0){
         highScore++;
       }
         game.setPieceBoard(currentPiece.getPiece());
@@ -169,6 +179,9 @@ void draw() {
 }
 
 void keyPressed() {
+  if(keyCode == 'P' && started){
+      pauseGame();
+    }
   if (started == false) {
     started = true;
   } 
@@ -212,7 +225,9 @@ void newPiece() {
   //delay(500);
   game.newSetBoard();
   int x = game.clearLines();
-  
+  if(x > 0){
+    file2.play();
+  }
   lines += x;
   if(millis() - passed > scoreTime){
     scoreName = game.setLinesName(x);
@@ -228,7 +243,7 @@ void newPiece() {
   //  //fallCooldown-=10;
   //}
   score+=game.scoreAdd(level,x);
-  if(play == 0){
+  if(play == 0 && highScore == 0){
     highScore+=game.scoreAdd(level,x);
   }
   currentPiece = nextPieces.removeFirst();
@@ -250,7 +265,7 @@ void hardDrop() {
     } 
     else {
       score+=2;
-      if(play == 0){
+      if(play == 0 && highScore == 0){
         highScore += 2;
       }
       game.setPieceBoard(currentPiece.getPiece());
@@ -265,17 +280,25 @@ void hardDrop() {
 }
 
 void pauseGame() {
+  isPaused = !isPaused;
+  if(isPaused == true){
+    fill(255);
+    text("GAME IS PAUSED, CLICK AGAIN TO RESUME!",400,780);
+  }
 }
 
 void startGame() {
-  background(196);
+  background(bg);
   game = new TetrisGame();
   passed = millis();
   scoreName = "";
   //highScore = 0;
   scoreTime = 2000;
+  String[] scores = loadStrings("score.txt");
+  highScore = Integer.parseInt(scores[0]);
   //highScore = 0;
   isPaused = false;
+  paused = false;
   started = false;
   isGameOver = false;
   generatePieces();
@@ -313,7 +336,7 @@ void drawBoard(int[][] board) {
       if (currentColor == I) { // I tetrominoe is cyan
         fill(0, 255, 255);
       } else if (currentColor == O) { // O is yellow
-        fill(255, 255, 0);
+        fill(231, 240, 17);
       } else if (currentColor == T) { // T is purple
         fill(255, 0, 255);
       } else if (currentColor == S) { // S is green
@@ -324,7 +347,9 @@ void drawBoard(int[][] board) {
         fill(0, 0, 255);
       } else if (currentColor == L) { // L is orange
         fill(255, 127, 0);
-      } else {
+      } else if(currentColor == -1) {
+        fill(128,128,128);
+      }else {
         fill(255, 255, 255);
       }
       square(x, y, squareSize);
@@ -345,10 +370,10 @@ void drawBoard(int[][] board) {
   text("DOWN",170,370);
   }
   
-  if(started){
-    rect(675,275,50,50);
+  if(started && !isGameOver){
+    rect(675,15,50,50);
     fill(0);
-    text("P",700,310);
+    text("P",700,50);
   }
 }
 
@@ -460,6 +485,9 @@ void mouseClicked(){
   else if(mouseX <= 190 && mouseX >=120 && mouseY <=400 && mouseY >= 350 && level - 1 > 0){
     level--;
   }
+}
+if(mouseX <= 810 && mouseX >=660 && mouseY <=170 && mouseY >= 10){
+    pauseGame();
   }
 }
 
