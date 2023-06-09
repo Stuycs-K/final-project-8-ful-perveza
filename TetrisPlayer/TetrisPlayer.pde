@@ -4,6 +4,7 @@ import processing.sound.*;
 int score;
 SoundFile file;
 SoundFile file2;
+SoundFile file3;
 int highScore;
 int level;
 boolean paused;
@@ -30,6 +31,8 @@ int hardDropCooldown;
 int[][] sidePieces;
 int[][] heldPieceDisplay;
 PImage bg;
+int mode;
+String modeName;
 public static final int I = 1;
 public static final int O = 2;
 public static final int T = 3;
@@ -43,12 +46,16 @@ void setup() {
   size(800, 800);
   file = new SoundFile(this, "Tetris.wav");
   file2 = new SoundFile(this, "vine-boom.wav");
+  file3 = new SoundFile(this, "clear.wav");
   file.loop();
   startGame();
 }
 
 void draw() {
   hardDropCooldown--;
+  if (cooldown > 0) {
+      cooldown--;
+   }
   if (started == false) {
    // start screen
     textSize(50);
@@ -117,7 +124,9 @@ void draw() {
     fill(255);
     textAlign(CENTER);
     text("TETRIS",400,40);
-    text("HOLD",105,70);
+    if(mode == 1) {
+      text("HOLD",105,70);
+    }
     text("SCORE",100,250);
     text(score,100,320);
     text("LINES",100,400);
@@ -129,11 +138,10 @@ void draw() {
     text(highScore,700,240);
     text(scoreName,700,300);
     textSize(30);
-    text("NEXT PIECES", 700, 390);
-    // game stuff here
-    if (cooldown > 0) {
-      cooldown--;
+    if(mode == 1) {
+      text("NEXT PIECES", 700, 390);
     }
+    // game stuff here
     if (keyboardInput.isPressed(Controller.P1_LEFT)) {
       currentPiece.shiftLeft();
       game.setPieceBoard(currentPiece.getPiece());
@@ -173,8 +181,10 @@ void draw() {
       hardDrop();
     }
     drawBoard(game.getDisplayBoard());
-    drawSidePieces();
-    drawHeldPiece();
+    if(mode == 1) {
+      drawSidePieces();
+      drawHeldPiece();
+    }
   }
 }
 
@@ -208,7 +218,7 @@ void keyPressed() {
       }
       drawBoard(game.getDisplayBoard());
     } 
-    else if(keyCode == 'C') {
+    else if(keyCode == 'C' && mode == 1) {
       setHeldPiece();
     }
     else {
@@ -225,7 +235,10 @@ void newPiece() {
   //delay(500);
   game.newSetBoard();
   int x = game.clearLines();
-  if(x > 0){
+  if(x > 0 && mode == 1){
+    file3.play();
+  }
+  if(x > 0 && mode == 2){
     file2.play();
   }
   lines += x;
@@ -248,7 +261,12 @@ void newPiece() {
   }
   currentPiece = nextPieces.removeFirst();
   game.setPieceBoard(currentPiece.getPiece());
-  nextPieces.add(betterRandPiece());
+  if(mode == 1) {
+    nextPieces.add(betterRandPiece());
+  }
+  else {
+    nextPieces.add(randPiece());
+  }
   setSidePieceDisplay();
   boolean gameOver = game.gameTick();
   if(!gameOver) {
@@ -314,6 +332,8 @@ void startGame() {
   //highScore = 0;
   lines = 0;
   nextPieces = new LinkedList<Piece>();
+  mode = 1;
+  modeName = "HEAVEN";
   for(int i = 0; i < 3; i++) {
     nextPieces.add(betterRandPiece());
   }
@@ -368,9 +388,29 @@ void drawBoard(int[][] board) {
   fill(255);
   text("UP",50,370);
   text("DOWN",170,370);
+  
+  textAlign(CENTER);
+  text("SELECT A MODE", 110, 500);
+  text("HEAVEN OR HELL", 110, 540);
+  if(mode == 1) {
+    fill(0,0,255);
+  }
+  else {
+    fill(255,0,0);
+  }
+  rect(50,570,120,40);
+  fill(255);
+  text(modeName, 110, 600);
+  
+  fill(0,0,255);
+  rect(50,620,50,50);
+  fill(255,0,0);
+  rect(120,620,50,50);
+  fill(255);
   }
   
   if(started && !isGameOver){
+    fill(255);
     rect(675,15,50,50);
     fill(0);
     text("P",700,50);
@@ -438,6 +478,7 @@ void drawHeldPiece() {
 void setHeldPiece() {
   if(heldPieceEmpty) {
     heldPieceEmpty = false;
+    heldPieceThisTurn = true;
     heldPiece = currentPiece;
     heldPiece.reset();
     int[][] ary = heldPiece.getPiece();
@@ -485,8 +526,29 @@ void mouseClicked(){
   else if(mouseX <= 190 && mouseX >=120 && mouseY <=400 && mouseY >= 350 && level - 1 > 0){
     level--;
   }
+  
+  if(mouseX >= 50 && mouseX <= 100 && mouseY >= 620 && mouseY <= 670) {
+    mode = 1;
+    modeName = "HEAVEN";
+    generatePieces();
+    currentPiece = betterRandPiece();
+    nextPieces = new LinkedList<Piece>();
+    for(int i = 0; i < 3; i++) {
+      nextPieces.add(betterRandPiece());
+    }
+  }
+  else if(mouseX >= 120 && mouseX <= 170 && mouseY >= 620 && mouseY <= 670) {
+    mode = 2;
+    modeName = "HELL";
+    currentPiece = randPiece();
+    nextPieces = new LinkedList<Piece>();
+    for(int i = 0; i < 3; i++) {
+      nextPieces.add(randPiece());
+    }
+  }
+  
 }
-if(mouseX <= 810 && mouseX >=660 && mouseY <=170 && mouseY >= 10){
+if(started && mouseX <= 810 && mouseX >=660 && mouseY <=170 && mouseY >= 10){
     pauseGame();
   }
 }
