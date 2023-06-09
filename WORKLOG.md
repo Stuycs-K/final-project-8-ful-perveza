@@ -59,6 +59,10 @@ Made most of a piece outline function, but has a small error when a piece spawns
 
 Made fix to piece outline, works well now. Need to finalize finishing touches during Friday and over the weekend.
 
+### 6/9/23
+
+Completed a hell mode for the game and related code in start screen. Finishing touches will continue over the weekend.
+
 ## Arshan Pervez
 
 ### 5/22/23
