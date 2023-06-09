@@ -311,7 +311,7 @@ void startGame() {
   passed = millis();
   scoreName = "";
   //highScore = 0;
-  scoreTime = 2000;
+  scoreTime = 500;
   String[] scores = loadStrings("score.txt");
   highScore = Integer.parseInt(scores[0]);
   //highScore = 0;
