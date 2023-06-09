@@ -245,15 +245,11 @@ class TetrisGame {
     }
     if (lines == 4) {
       return "TETRIS!";
-<<<<<<< HEAD
-    } else {
-=======
     }
     else if(lines > 4){
       return "NICE!";
     }
     else{
->>>>>>> ed9c07b9b9aef192052e30618b41f3446aaef5ed
       return "";
     }
   }
