@@ -36,6 +36,8 @@ String modeName;
 int zoneTime;
 int time;
 boolean zone;
+int zoneLines;
+boolean zoneFull;
 public static final int I = 1;
 public static final int O = 2;
 public static final int T = 3;
@@ -100,9 +102,10 @@ void draw() {
   } 
   else if (started && !isPaused && fallCooldown == 0) {
     if(zone){
-      fallCooldown = 100000000;
+      fallCooldown = 100000;
     }
     else{
+      //zone = false;
     fallCooldown = game.setNewCooldown(level);
     }
   //  if(lines - 10*(level) >= 0){
@@ -139,6 +142,12 @@ void draw() {
     text(score,100,320);
     text("LINES",100,400);
     text(lines,100,470);
+    if(zone){
+      text("ZONE!",100,500);
+    }
+    if(zoneFull){
+      text("ZONE FULL!",100,530);
+    }
     text("LEVEL",100,550);
     text(level,100,630);
     text("HIGH", 700,130);
@@ -229,6 +238,13 @@ void keyPressed() {
     else if(keyCode == 'C' && mode == 1) {
       setHeldPiece();
     }
+    else if(keyCode == 'O' && mode == 1 && zoneFull){
+      zone = true;
+      
+    }
+    else if(keyCode == 'A' && mode == 1){
+      zone = true;
+    }
     else {
       keyboardInput.press(keyCode);
     }
@@ -250,6 +266,7 @@ void newPiece() {
     file2.play();
   }
   lines += x;
+  zoneLines += x;
   if(millis() - passed > scoreTime){
     boolean empty = true;
     for(int i = 0; i < game.getDisplayBoard().length; i++){
@@ -269,6 +286,10 @@ void newPiece() {
   }
   if(lines - 10*(level) >= 0){
     level++;
+  }
+  if(zoneLines == 20 && !zone){
+    zoneLines = 0;
+    zoneFull = true;
   }
   
   //if(lines - 10*(level) >= 0){
@@ -330,7 +351,7 @@ void startGame() {
   background(bg);
   game = new TetrisGame();
   passed = millis();
-  zone = true;
+  zone = false;
   scoreName = "";
   //highScore = 0;
   scoreTime = 500;
