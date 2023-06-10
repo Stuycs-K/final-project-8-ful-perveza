@@ -33,6 +33,9 @@ int[][] heldPieceDisplay;
 PImage bg;
 int mode;
 String modeName;
+int zoneTime;
+int time;
+boolean zone;
 public static final int I = 1;
 public static final int O = 2;
 public static final int T = 3;
@@ -96,7 +99,12 @@ void draw() {
     fallCooldown--;
   } 
   else if (started && !isPaused && fallCooldown == 0) {
+    if(zone){
+      fallCooldown = 100000000;
+    }
+    else{
     fallCooldown = game.setNewCooldown(level);
+    }
   //  if(lines - 10*(level) >= 0){
   //  //lines = 0;
   //  level++;
@@ -243,7 +251,20 @@ void newPiece() {
   }
   lines += x;
   if(millis() - passed > scoreTime){
+    boolean empty = true;
+    for(int i = 0; i < game.getDisplayBoard().length; i++){
+      for(int j = 0; j < game.getDisplayBoard()[i].length; j++){
+        if(game.getDisplayBoard()[i][j] != 0){
+          empty = false;
+        }
+      }
+    }
+    if(empty && zone){
+      scoreName = "PERFECT CLEAR";
+    }
+    else{
     scoreName = game.setLinesName(x);
+    }
     passed = millis();
   }
   if(lines - 10*(level) >= 0){
@@ -309,6 +330,7 @@ void startGame() {
   background(bg);
   game = new TetrisGame();
   passed = millis();
+  zone = true;
   scoreName = "";
   //highScore = 0;
   scoreTime = 500;
