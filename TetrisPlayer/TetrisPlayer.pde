@@ -520,7 +520,7 @@ void setHeldPiece() {
 
 void mouseClicked(){
   if(!started){
-  if(mouseX <= 70 && mouseX >=40 && mouseY <=400 && mouseY >= 350 && level + 1 < 11){
+  if(mouseX <= 70 && mouseX >=40 && mouseY <=400 && mouseY >= 350 && level + 1 < 13){
     level++;
   }
   else if(mouseX <= 190 && mouseX >=120 && mouseY <=400 && mouseY >= 350 && level - 1 > 0){

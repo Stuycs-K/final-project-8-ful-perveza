@@ -98,3 +98,6 @@ Added a pause button and ability to pause/resume the game.
 
 ### 6/7-6/8
 Added key compatibility for pausing, utilized text files to keep highscores when running the sketch multiple times, added more sound effects for when lines are cleared, added a new background.
+
+### 6/9
+Pieces would often drop instantly at levels past 12, so set new limits for a dropCooldown both at startscreen and in the game.
