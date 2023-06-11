@@ -305,7 +305,7 @@ void newPiece() {
   if (lines - 10*(level) >= 0) {
     level++;
   }
-  if (zoneLines == 15 && !zone) {
+  if (zoneLines == 5 && !zone) {
     zoneLines = 0;
     zoneFull = true;
     file6.play();
@@ -381,6 +381,7 @@ void startGame() {
   zoneFull = false;
   scoreName = "";
   //highScore = 0;
+  zoneLines = 0;
   scoreTime = 500;
   String[] scores = loadStrings("score.txt");
   highScore = Integer.parseInt(scores[0]);
