@@ -304,7 +304,6 @@ void newPiece() {
   if(!zone && !zoneFull) {
     zoneLines += x;
   }
-  println(zoneLines);
   if (millis() - passed > scoreTime) {
     boolean empty = true;
     for (int i = 0; i < game.getDisplayBoard().length; i++) {
@@ -402,6 +401,7 @@ void startGame() {
   zoneLines = 0;
   scoreName = "";
   //highScore = 0;
+  zoneLines = 0;
   scoreTime = 500;
   String[] scores = loadStrings("score.txt");
   highScore = Integer.parseInt(scores[0]);
