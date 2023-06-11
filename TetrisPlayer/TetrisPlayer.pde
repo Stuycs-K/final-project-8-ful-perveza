@@ -285,7 +285,9 @@ void newPiece() {
     file2.play();
   }
   lines += x;
+  if(!zone){
   zoneLines += x;
+  }
   if (millis() - passed > scoreTime) {
     boolean empty = true;
     for (int i = 0; i < game.getDisplayBoard().length; i++) {
