@@ -1,5 +1,5 @@
 # APCS Final Project
-THIS DOCUMENT IS REQUIRED
+
 ## Group Info
 - Arshan Pervez
 - Logan Fu
@@ -17,10 +17,10 @@ Required Libraries in Processing:
   - Sound by the Processing Foundation
 
 Start Screen:
-  - Level: Select a level from 1-10 to start with by clicking on "UP" or "DOWN". The higher the level, the faster the pieces fall automatically.
+  - Level: Select a level from 1-12 to start with by clicking on "UP" or "DOWN". Higher levels have pieces fall faster automatically, and they generate greater score.
   - Mode: Select a mode by either clicking on the blue or red box.
-    - Heaven: Standard random piece generation (generates and shuffles a bag of the seven pieces), hold piece available, and next pieces are visible. This is the basic standard for modern Tetris.
-    - Hell: Chaotic random piece generation (generates each piece with a 1/7 chance every time, usually leads to unlucky streaks), hold piece disabled, and next pieces are invisible.
+    - Heaven: Standard random piece generation (generates and shuffles a bag of the seven pieces), hold piece available, and next pieces are visible. This is the basic standard for modern Tetris. You are also able to activate the zone mechanic, which stops pieces from falling automatically.
+    - Hell: Chaotic random piece generation (generates each piece with a 1/7 chance every time, usually leads to unlucky streaks), hold piece disabled, next pieces are invisible, and activating zone is disabled.
 
 Controls:
   - Left arrow: Move piece to the left
@@ -29,4 +29,6 @@ Controls:
   - Z: Rotate piece left
   - X: Rotate pieces right
   - C: Hold current piece
+  - A: Activate zone (Pieces stop falling automatically for 20 seconds; Need to clear 15 lines in order to activate zone)
   - Spacebar: Hard drop pieces (piece fits down instantly)
+  - P: Pause/Unpause game (You can also click the P button on the screen with your mouse)
