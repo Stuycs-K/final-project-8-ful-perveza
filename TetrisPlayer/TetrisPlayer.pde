@@ -305,7 +305,7 @@ void newPiece() {
   if (lines - 10*(level) >= 0) {
     level++;
   }
-  if (zoneLines == 1 && !zone) {
+  if (zoneLines == 15 && !zone) {
     zoneLines = 0;
     zoneFull = true;
     file6.play();
