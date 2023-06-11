@@ -33,11 +33,11 @@ int[][] heldPieceDisplay;
 PImage bg;
 int mode;
 String modeName;
-int zoneTime;
 int time;
 boolean zone;
-int zoneLines;
+int zoneCooldown;
 boolean zoneFull;
+int zoneLines;
 public static final int I = 1;
 public static final int O = 2;
 public static final int T = 3;
@@ -57,6 +57,10 @@ void setup() {
 }
 
 void draw() {
+  zoneCooldown--;
+  if(zoneCooldown <= 0){
+      zone = false;
+    }
   hardDropCooldown--;
   if (cooldown > 0) {
       cooldown--;
@@ -97,17 +101,11 @@ void draw() {
     drawBoard(game.getDisplayBoard());
     gameOverCooldown--;
   }
-  if (started && !isPaused && fallCooldown > 0 && !isGameOver) {
+  if (started && !isPaused && fallCooldown > 0 && !isGameOver && !zone) {
     fallCooldown--;
   } 
   else if (started && !isPaused && fallCooldown == 0) {
-    if(zone){
-      fallCooldown = 100000;
-    }
-    else{
-      //zone = false;
     fallCooldown = game.setNewCooldown(level);
-    }
   //  if(lines - 10*(level) >= 0){
   //  //lines = 0;
   //  level++;
@@ -143,10 +141,10 @@ void draw() {
     text("LINES",100,400);
     text(lines,100,470);
     if(zone){
-      text("ZONE!",100,500);
+      text("ZONE!",100,700);
     }
     if(zoneFull){
-      text("ZONE FULL!",100,530);
+      text("ZONE FULL!",100,700);
     }
     text("LEVEL",100,550);
     text(level,100,630);
@@ -181,9 +179,19 @@ void draw() {
       if (!currentPiece.shiftDown()) {
         newPiece();
       } else {
-        score++;
+        if(zone){
+        score+=2;
+        }
+        else{
+          score++;
+        }
       if(play == 0 && highScore == 0){
-        highScore++;
+        if(zone){
+        highScore+=2;
+        }
+        else{
+          highScore++;
+        }
       }
         game.setPieceBoard(currentPiece.getPiece());
         boolean tick = game.gameTick();
@@ -244,6 +252,7 @@ void keyPressed() {
     }
     else if(keyCode == 'A' && mode == 1){
       zone = true;
+      zoneCooldown = 600;
     }
     else {
       keyboardInput.press(keyCode);
@@ -297,9 +306,19 @@ void newPiece() {
   //  level++;
   //  //fallCooldown-=10;
   //}
-  score+=game.scoreAdd(level,x);
+  if(zone){
+  score+= 2 * game.scoreAdd(level,x);
+  }
+  else{
+    score+= game.scoreAdd(level,x);
+  }
   if(play == 0 && highScore == 0){
-    highScore+=game.scoreAdd(level,x);
+    if(zone){
+    highScore+= 2 * game.scoreAdd(level,x);
+    }
+    else{
+      highScore+= game.scoreAdd(level,x);
+    }
   }
   currentPiece = nextPieces.removeFirst();
   game.setPieceBoard(currentPiece.getPiece());
