@@ -39,6 +39,7 @@ int zoneCooldown;
 boolean zoneFull;
 int zoneLines;
 SoundFile file4;
+SoundFile file5;
 public static final int I = 1;
 public static final int O = 2;
 public static final int T = 3;
@@ -54,6 +55,7 @@ void setup() {
   file2 = new SoundFile(this, "vine-boom.wav");
   file3 = new SoundFile(this, "clear.wav");
   file4 = new SoundFile(this, "Nope-Sound-Effect.wav");
+  file5 = new SoundFile(this,"WOW.wav");
   file.loop();
   startGame();
 }
@@ -241,6 +243,7 @@ void keyPressed() {
       setHeldPiece();
     } else if (keyCode == 'A' && mode == 1) {
       if(zoneFull){
+        file5.play();
       zone = true;
       zoneCooldown = 600;
       }
