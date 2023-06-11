@@ -62,8 +62,9 @@ void setup() {
 
 void draw() {
   zoneCooldown--;
-  if (zoneCooldown <= 0) {
+  if (zoneCooldown < 0 && zone) {
     zone = false;
+    zoneFull = false;
   }
   hardDropCooldown--;
   if (cooldown > 0) {
@@ -131,6 +132,7 @@ void draw() {
   if (started && !isPaused && frameCount % 6 == 0 && !isGameOver) {
     // enter game loop
     background(bg);
+    String zoneProg = "";
     textSize(50);
     fill(255);
     textAlign(CENTER);
@@ -142,11 +144,14 @@ void draw() {
     text(score, 100, 320);
     text("LINES", 100, 400);
     text(lines, 100, 470);
-    if (zone) {
-      text("ZONE!", 100, 700);
+    if (zoneFull && mode == 1) {
+      zoneProg = "FULL!";
     }
-    if (zoneFull) {
-      text("ZONE FULL!", 100, 700);
+    if (zone && mode == 1) {
+      zoneProg = "ZONE!";
+    }
+    if(mode == 1){
+    text(zoneProg, 100, 700);
     }
     text("LEVEL", 100, 550);
     text(level, 100, 630);
@@ -245,7 +250,7 @@ void keyPressed() {
       if(zoneFull){
         file5.play();
       zone = true;
-      zoneCooldown = 600;
+      zoneCooldown = 6000;
       }
       else{
         //text("NOT YET!", 100, 700);
@@ -253,10 +258,11 @@ void keyPressed() {
         }
 
     } 
-    }else {
+    else {
       keyboardInput.press(keyCode);
     }
   }
+}
 
 
 void keyReleased() {
@@ -366,6 +372,7 @@ void startGame() {
   passed = millis();
   //time = millis();
   zone = false;
+  zoneFull = false;
   scoreName = "";
   //highScore = 0;
   scoreTime = 500;

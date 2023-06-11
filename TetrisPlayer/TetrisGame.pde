@@ -212,8 +212,7 @@ class TetrisGame {
     return lines;
   }
   
-  int clearZone() {
-    int lines = 0;
+  void clearZone() {
     int counter = 0;
     for (int i = 0; i < setBoard.length; i++) {
       for (int j = 0; j < setBoard[0].length; j++) {
@@ -231,7 +230,6 @@ class TetrisGame {
       }
       counter = 0;
     }
-    return lines;
   }
 
   int scoreAdd(int level, int lines) {
