@@ -101,3 +101,6 @@ Added key compatibility for pausing, utilized text files to keep highscores when
 
 ### 6/9
 Pieces would often drop instantly at levels past 12, so set new limits for a dropCooldown both at startscreen and in the game.
+
+### 6/10-6/11
+Created a zone feature, where after clearing a specific number of lines, one can activate a temporary power where the pieces stop falling automatically. Also added more sound effects.
