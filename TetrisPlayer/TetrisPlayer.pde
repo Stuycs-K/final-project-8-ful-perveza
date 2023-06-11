@@ -65,11 +65,14 @@ void setup() {
 }
 
 void draw() {
-  zoneCooldown--;
+  if(!isPaused && !isGameOver) {
+    zoneCooldown--;
+  }
   if (zoneCooldown < 0 && zone) {
     file7.play();
     zone = false;
     zoneFull = false;
+    file.loop();
   }
   hardDropCooldown--;
   if (cooldown > 0) {
@@ -150,14 +153,25 @@ void draw() {
     text("LINES", 100, 400);
     text(lines, 100, 470);
     if (zoneFull && mode == 1) {
-      zoneProg = "FULL!";
+      zoneProg = "ZONE READY!";
     }
     if (zone && mode == 1) {
-      zoneProg = "ZONE!";
+      int time = zoneCooldown / 60;
+      zoneProg = "TIME LEFT: " + time + " SECS";
+    }
+    if(!zoneFull && !zone && mode == 1) {
+      zoneProg = "Lines left: " + zoneLines + " / 15";
     }
     if(mode == 1){
+    if(zone) {
+      textSize(20);
+    }
+    else {
+      textSize(30);
+    }
     text(zoneProg, 100, 700);
     }
+    textSize(50);
     text("LEVEL", 100, 550);
     text(level, 100, 630);
     text("HIGH", 700, 130);
@@ -231,7 +245,7 @@ void keyPressed() {
     started = true;
   } else if (isGameOver && gameOverCooldown <= 0) {
     startGame();
-  } else if (cooldown == 0) {
+  } else if (cooldown == 0 && !isPaused) {
     cooldown = 1;
     if (keyCode == 'Z') {
       currentPiece.rotateLeft();
@@ -252,10 +266,12 @@ void keyPressed() {
     } else if (keyCode == 'C' && mode == 1) {
       setHeldPiece();
     } else if (keyCode == 'A' && mode == 1) {
-      if(zoneFull || zone){
+      if(zoneFull && !zone){
         file5.play();
       zone = true;
+      zoneFull = false;
       zoneCooldown = 1200;
+      file.pause();
       }
       else{
         //text("NOT YET!", 100, 700);
@@ -285,7 +301,10 @@ void newPiece() {
     file2.play();
   }
   lines += x;
-  zoneLines += x;
+  if(!zone && !zoneFull) {
+    zoneLines += x;
+  }
+  println(zoneLines);
   if (millis() - passed > scoreTime) {
     boolean empty = true;
     for (int i = 0; i < game.getDisplayBoard().length; i++) {
@@ -305,7 +324,7 @@ void newPiece() {
   if (lines - 10*(level) >= 0) {
     level++;
   }
-  if (zoneLines == 15 && !zone) {
+  if (zoneLines >= 15 && !zone && mode == 1) {
     zoneLines = 0;
     zoneFull = true;
     file6.play();
@@ -373,12 +392,14 @@ void pauseGame() {
 }
 
 void startGame() {
+  file.loop();
   background(bg);
   game = new TetrisGame();
   passed = millis();
   //time = millis();
   zone = false;
   zoneFull = false;
+  zoneLines = 0;
   scoreName = "";
   //highScore = 0;
   scoreTime = 500;
@@ -439,7 +460,9 @@ void drawBoard(int[][] board) {
         fill(255, 127, 0);
       } else if (currentColor == -1) {
         fill(128, 128, 128);
-      } else {
+      } else if(currentColor == 0 && zone) {
+        fill(15);
+      }else {
         fill(255, 255, 255);
       }
       square(x, y, squareSize);
