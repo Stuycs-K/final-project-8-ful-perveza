@@ -40,6 +40,8 @@ boolean zoneFull;
 int zoneLines;
 SoundFile file4;
 SoundFile file5;
+SoundFile file6;
+SoundFile file7;
 public static final int I = 1;
 public static final int O = 2;
 public static final int T = 3;
@@ -56,6 +58,8 @@ void setup() {
   file3 = new SoundFile(this, "clear.wav");
   file4 = new SoundFile(this, "Nope-Sound-Effect.wav");
   file5 = new SoundFile(this,"WOW.wav");
+  file6 = new SoundFile(this,"kool-aid-oh-yeah.wav");
+  file7 = new SoundFile(this,"roblox.wav");
   file.loop();
   startGame();
 }
@@ -63,6 +67,7 @@ void setup() {
 void draw() {
   zoneCooldown--;
   if (zoneCooldown < 0 && zone) {
+    file7.play();
     zone = false;
     zoneFull = false;
   }
@@ -247,10 +252,10 @@ void keyPressed() {
     } else if (keyCode == 'C' && mode == 1) {
       setHeldPiece();
     } else if (keyCode == 'A' && mode == 1) {
-      if(zoneFull){
+      if(zoneFull || zone){
         file5.play();
       zone = true;
-      zoneCooldown = 6000;
+      zoneCooldown = 1200;
       }
       else{
         //text("NOT YET!", 100, 700);
@@ -300,9 +305,10 @@ void newPiece() {
   if (lines - 10*(level) >= 0) {
     level++;
   }
-  if (zoneLines == 20 && !zone) {
+  if (zoneLines == 15 && !zone) {
     zoneLines = 0;
     zoneFull = true;
+    file6.play();
   }
 
   //if(lines - 10*(level) >= 0){
