@@ -42,6 +42,7 @@ SoundFile file4;
 SoundFile file5;
 SoundFile file6;
 SoundFile file7;
+SoundFile file8;
 public static final int I = 1;
 public static final int O = 2;
 public static final int T = 3;
@@ -60,6 +61,7 @@ void setup() {
   file5 = new SoundFile(this,"WOW.wav");
   file6 = new SoundFile(this,"kool-aid-oh-yeah.wav");
   file7 = new SoundFile(this,"roblox.wav");
+  file8 = new SoundFile(this, "zoneMusic.wav");
   file.loop();
   startGame();
 }
@@ -72,6 +74,7 @@ void draw() {
     file7.play();
     zone = false;
     zoneFull = false;
+    file8.pause();
     file.loop();
   }
   hardDropCooldown--;
@@ -272,6 +275,7 @@ void keyPressed() {
       zoneFull = false;
       zoneCooldown = 1200;
       file.pause();
+      file8.loop();
       }
       else{
         //text("NOT YET!", 100, 700);
@@ -392,6 +396,8 @@ void pauseGame() {
 
 void startGame() {
   file.loop();
+  file8.loop();
+  file8.pause();
   background(bg);
   game = new TetrisGame();
   passed = millis();
