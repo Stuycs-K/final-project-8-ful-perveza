@@ -38,6 +38,7 @@ boolean zone;
 int zoneCooldown;
 boolean zoneFull;
 int zoneLines;
+SoundFile file4;
 public static final int I = 1;
 public static final int O = 2;
 public static final int T = 3;
@@ -52,26 +53,27 @@ void setup() {
   file = new SoundFile(this, "Tetris.wav");
   file2 = new SoundFile(this, "vine-boom.wav");
   file3 = new SoundFile(this, "clear.wav");
+  file4 = new SoundFile(this, "Nope-Sound-Effect.wav");
   file.loop();
   startGame();
 }
 
 void draw() {
   zoneCooldown--;
-  if(zoneCooldown <= 0){
-      zone = false;
-    }
+  if (zoneCooldown <= 0) {
+    zone = false;
+  }
   hardDropCooldown--;
   if (cooldown > 0) {
-      cooldown--;
-   }
+    cooldown--;
+  }
   if (started == false) {
-   // start screen
+    // start screen
     textSize(50);
     textAlign(CENTER);
     text("TETRIS (press any key to start)", 400, 40);
     textSize(30);
-    
+
     if (frameCount % 10 == 0) {
       int[][] testBoard = new int[20][10];
       Random rng = new Random();
@@ -83,14 +85,14 @@ void draw() {
       drawBoard(testBoard);
     }
     //fill(255);
-  //background(196);
+    //background(196);
   }
-  if(isGameOver) {
-    if(highScore <= score){
+  if (isGameOver) {
+    if (highScore <= score) {
       highScore = score;
       String hi = str(highScore);
-      String[] scoreKeep = split(hi,' ');
-      saveStrings("score.txt",scoreKeep);
+      String[] scoreKeep = split(hi, ' ');
+      saveStrings("score.txt", scoreKeep);
     }
     play++;
     background(bg);
@@ -103,20 +105,18 @@ void draw() {
   }
   if (started && !isPaused && fallCooldown > 0 && !isGameOver && !zone) {
     fallCooldown--;
-  } 
-  else if (started && !isPaused && fallCooldown == 0) {
+  } else if (started && !isPaused && fallCooldown == 0) {
     fallCooldown = game.setNewCooldown(level);
-  //  if(lines - 10*(level) >= 0){
-  //  //lines = 0;
-  //  level++;
-  //  fallCooldown -= 20;
-  //  //fallCooldown-=10;
-  //}
+    //  if(lines - 10*(level) >= 0){
+    //  //lines = 0;
+    //  level++;
+    //  fallCooldown -= 20;
+    //  //fallCooldown-=10;
+    //}
     if (!currentPiece.shiftDown()) {
       newPiece();
       drawBoard(game.getDisplayBoard());
-    } 
-    else {
+    } else {
       game.setPieceBoard(currentPiece.getPiece());
       boolean tick = game.gameTick();
       if (!tick) {
@@ -132,28 +132,28 @@ void draw() {
     textSize(50);
     fill(255);
     textAlign(CENTER);
-    text("TETRIS",400,40);
-    if(mode == 1) {
-      text("HOLD",105,70);
+    text("TETRIS", 400, 40);
+    if (mode == 1) {
+      text("HOLD", 105, 70);
     }
-    text("SCORE",100,250);
-    text(score,100,320);
-    text("LINES",100,400);
-    text(lines,100,470);
-    if(zone){
-      text("ZONE!",100,700);
+    text("SCORE", 100, 250);
+    text(score, 100, 320);
+    text("LINES", 100, 400);
+    text(lines, 100, 470);
+    if (zone) {
+      text("ZONE!", 100, 700);
     }
-    if(zoneFull){
-      text("ZONE FULL!",100,700);
+    if (zoneFull) {
+      text("ZONE FULL!", 100, 700);
     }
-    text("LEVEL",100,550);
-    text(level,100,630);
-    text("HIGH", 700,130);
-    text("SCORE", 700,170);
-    text(highScore,700,240);
-    text(scoreName,700,300);
+    text("LEVEL", 100, 550);
+    text(level, 100, 630);
+    text("HIGH", 700, 130);
+    text("SCORE", 700, 170);
+    text(highScore, 700, 240);
+    text(scoreName, 700, 300);
     textSize(30);
-    if(mode == 1) {
+    if (mode == 1) {
       text("NEXT PIECES", 700, 390);
     }
     // game stuff here
@@ -179,20 +179,18 @@ void draw() {
       if (!currentPiece.shiftDown()) {
         newPiece();
       } else {
-        if(zone){
-        score+=2;
-        }
-        else{
+        if (zone) {
+          score+=2;
+        } else {
           score++;
         }
-      if(play == 0 && highScore == 0){
-        if(zone){
-        highScore+=2;
+        if (play == 0 && highScore == 0) {
+          if (zone) {
+            highScore+=2;
+          } else {
+            highScore++;
+          }
         }
-        else{
-          highScore++;
-        }
-      }
         game.setPieceBoard(currentPiece.getPiece());
         boolean tick = game.gameTick();
         if (!tick) {
@@ -206,7 +204,7 @@ void draw() {
       hardDrop();
     }
     drawBoard(game.getDisplayBoard());
-    if(mode == 1) {
+    if (mode == 1) {
       drawSidePieces();
       drawHeldPiece();
     }
@@ -214,16 +212,14 @@ void draw() {
 }
 
 void keyPressed() {
-  if(keyCode == 'P' && started){
-      pauseGame();
-    }
+  if (keyCode == 'P' && started) {
+    pauseGame();
+  }
   if (started == false) {
     started = true;
-  } 
-  else if(isGameOver && gameOverCooldown <= 0) {
+  } else if (isGameOver && gameOverCooldown <= 0) {
     startGame();
-  }
-  else if (cooldown == 0) {
+  } else if (cooldown == 0) {
     cooldown = 1;
     if (keyCode == 'Z') {
       currentPiece.rotateLeft();
@@ -233,8 +229,7 @@ void keyPressed() {
         currentPiece.rotateRight();
       }
       drawBoard(game.getDisplayBoard());
-    } 
-    else if (keyCode == 'X') {
+    } else if (keyCode == 'X') {
       currentPiece.rotateRight();
       game.setPieceBoard(currentPiece.getPiece());
       boolean tick = game.gameTick();
@@ -242,23 +237,24 @@ void keyPressed() {
         currentPiece.rotateLeft();
       }
       drawBoard(game.getDisplayBoard());
-    } 
-    else if(keyCode == 'C' && mode == 1) {
+    } else if (keyCode == 'C' && mode == 1) {
       setHeldPiece();
-    }
-    else if(keyCode == 'O' && mode == 1 && zoneFull){
-      zone = true;
-      
-    }
-    else if(keyCode == 'A' && mode == 1){
+    } else if (keyCode == 'A' && mode == 1) {
+      if(zoneFull){
       zone = true;
       zoneCooldown = 600;
-    }
-    else {
+      }
+      else{
+        //text("NOT YET!", 100, 700);
+         file4.play();
+        }
+
+    } 
+    }else {
       keyboardInput.press(keyCode);
     }
   }
-}
+
 
 void keyReleased() {
   keyboardInput.release(keyCode);
@@ -268,83 +264,78 @@ void newPiece() {
   //delay(500);
   game.newSetBoard();
   int x = game.clearLines();
-  if(x > 0 && mode == 1){
+  if (x > 0 && mode == 1) {
     file3.play();
   }
-  if(x > 0 && mode == 2){
+  if (x > 0 && mode == 2) {
     file2.play();
   }
   lines += x;
   zoneLines += x;
-  if(millis() - passed > scoreTime){
+  if (millis() - passed > scoreTime) {
     boolean empty = true;
-    for(int i = 0; i < game.getDisplayBoard().length; i++){
-      for(int j = 0; j < game.getDisplayBoard()[i].length; j++){
-        if(game.getDisplayBoard()[i][j] != 0){
+    for (int i = 0; i < game.getDisplayBoard().length; i++) {
+      for (int j = 0; j < game.getDisplayBoard()[i].length; j++) {
+        if (game.getDisplayBoard()[i][j] != 0) {
           empty = false;
         }
       }
     }
-    if(empty && zone){
+    if (empty && zone) {
       scoreName = "PERFECT CLEAR";
-    }
-    else{
-    scoreName = game.setLinesName(x);
+    } else {
+      scoreName = game.setLinesName(x);
     }
     passed = millis();
   }
-  if(lines - 10*(level) >= 0){
+  if (lines - 10*(level) >= 0) {
     level++;
   }
-  if(zoneLines == 20 && !zone){
+  if (zoneLines == 20 && !zone) {
     zoneLines = 0;
     zoneFull = true;
   }
-  
+
   //if(lines - 10*(level) >= 0){
   //  //lines = 0;
   //  level++;
   //  //fallCooldown-=10;
   //}
-  if(zone){
-  score+= 2 * game.scoreAdd(level,x);
+  if (zone) {
+    score+= 2 * game.scoreAdd(level, x);
+  } else {
+    score+= game.scoreAdd(level, x);
   }
-  else{
-    score+= game.scoreAdd(level,x);
-  }
-  if(play == 0 && highScore == 0){
-    if(zone){
-    highScore+= 2 * game.scoreAdd(level,x);
-    }
-    else{
-      highScore+= game.scoreAdd(level,x);
+  if (play == 0 && highScore == 0) {
+    if (zone) {
+      highScore+= 2 * game.scoreAdd(level, x);
+    } else {
+      highScore+= game.scoreAdd(level, x);
     }
   }
   currentPiece = nextPieces.removeFirst();
   game.setPieceBoard(currentPiece.getPiece());
-  if(mode == 1) {
+  if (mode == 1) {
     nextPieces.add(betterRandPiece());
-  }
-  else {
+  } else {
     nextPieces.add(randPiece());
   }
   setSidePieceDisplay();
   boolean gameOver = game.gameTick();
-  if(!gameOver) {
+  if (!gameOver) {
     isGameOver = true;
   }
   heldPieceThisTurn = false;
 }
 
 void hardDrop() {
-  while(true) {
+  while (true) {
     if (!currentPiece.shiftDown()) {
       newPiece();
       break;
-    } 
-    else {
+    } else {
       score+=2;
-      if(play == 0 && highScore == 0){
+      if (play == 0 && highScore == 0) {
         highScore += 2;
       }
       game.setPieceBoard(currentPiece.getPiece());
@@ -360,9 +351,9 @@ void hardDrop() {
 
 void pauseGame() {
   isPaused = !isPaused;
-  if(isPaused == true){
+  if (isPaused == true) {
     fill(255);
-    text("GAME IS PAUSED, CLICK AGAIN TO RESUME!",400,780);
+    text("GAME IS PAUSED, CLICK AGAIN TO RESUME!", 400, 780);
   }
 }
 
@@ -370,6 +361,7 @@ void startGame() {
   background(bg);
   game = new TetrisGame();
   passed = millis();
+  //time = millis();
   zone = false;
   scoreName = "";
   //highScore = 0;
@@ -396,7 +388,7 @@ void startGame() {
   nextPieces = new LinkedList<Piece>();
   mode = 1;
   modeName = "HEAVEN";
-  for(int i = 0; i < 3; i++) {
+  for (int i = 0; i < 3; i++) {
     nextPieces.add(betterRandPiece());
   }
   sidePieces = new int[12][4];
@@ -429,53 +421,52 @@ void drawBoard(int[][] board) {
         fill(0, 0, 255);
       } else if (currentColor == L) { // L is orange
         fill(255, 127, 0);
-      } else if(currentColor == -1) {
-        fill(128,128,128);
-      }else {
+      } else if (currentColor == -1) {
+        fill(128, 128, 128);
+      } else {
         fill(255, 255, 255);
       }
       square(x, y, squareSize);
     }
   }
-  
+
   //rect(110,340,20,20);
-  if(!started){
-  fill(255);
-  text("SELECT A LEVEL",110,300);
-  fill(196);
-  rect(90,310,40,40);
-  fill(255);
-  String s = level + "";
-  text(s, 110,340);
-  fill(255);
-  text("UP",50,370);
-  text("DOWN",170,370);
-  
-  textAlign(CENTER);
-  text("SELECT A MODE", 110, 500);
-  text("HEAVEN OR HELL", 110, 540);
-  if(mode == 1) {
-    fill(0,0,255);
-  }
-  else {
-    fill(255,0,0);
-  }
-  rect(50,570,120,40);
-  fill(255);
-  text(modeName, 110, 600);
-  
-  fill(0,0,255);
-  rect(50,620,50,50);
-  fill(255,0,0);
-  rect(120,620,50,50);
-  fill(255);
-  }
-  
-  if(started && !isGameOver){
+  if (!started) {
     fill(255);
-    rect(675,15,50,50);
+    text("SELECT A LEVEL", 110, 300);
+    fill(196);
+    rect(90, 310, 40, 40);
+    fill(255);
+    String s = level + "";
+    text(s, 110, 340);
+    fill(255);
+    text("UP", 50, 370);
+    text("DOWN", 170, 370);
+
+    textAlign(CENTER);
+    text("SELECT A MODE", 110, 500);
+    text("HEAVEN OR HELL", 110, 540);
+    if (mode == 1) {
+      fill(0, 0, 255);
+    } else {
+      fill(255, 0, 0);
+    }
+    rect(50, 570, 120, 40);
+    fill(255);
+    text(modeName, 110, 600);
+
+    fill(0, 0, 255);
+    rect(50, 620, 50, 50);
+    fill(255, 0, 0);
+    rect(120, 620, 50, 50);
+    fill(255);
+  }
+
+  if (started && !isGameOver) {
+    fill(255);
+    rect(675, 15, 50, 50);
     fill(0);
-    text("P",700,50);
+    text("P", 700, 50);
   }
 }
 
@@ -483,7 +474,7 @@ void drawBoard(int[][] board) {
 
 void drawSidePieces() {
   int squareSize = 25;
-   // dimensions: 12 rows of blocks, 4 cols of blocks
+  // dimensions: 12 rows of blocks, 4 cols of blocks
   for (int x = 650; x + squareSize <= 750; x += squareSize) {
     for (int y = 400; y + squareSize <= 700; y += squareSize) {
       int currentColor = sidePieces[(y- 400) / squareSize][(x - 650) / squareSize];
@@ -511,7 +502,7 @@ void drawSidePieces() {
 
 void drawHeldPiece() {
   int squareSize = 25;
-   // dimensions: 4 rows of blocks, 4 cols of blocks
+  // dimensions: 4 rows of blocks, 4 cols of blocks
   for (int x = 55; x + squareSize <= 155; x += squareSize) {
     for (int y = 90; y + squareSize <= 190; y += squareSize) {
       int currentColor = heldPieceDisplay[(y- 90) / squareSize][(x - 55) / squareSize];
@@ -538,79 +529,75 @@ void drawHeldPiece() {
 }
 
 void setHeldPiece() {
-  if(heldPieceEmpty) {
+  if (heldPieceEmpty) {
     heldPieceEmpty = false;
     heldPieceThisTurn = true;
     heldPiece = currentPiece;
     heldPiece.reset();
     int[][] ary = heldPiece.getPiece();
-    for(int i = 3; i <= 6; i++) {
-      for(int j = 0; j <= 3; j++) {
+    for (int i = 3; i <= 6; i++) {
+      for (int j = 0; j <= 3; j++) {
         heldPieceDisplay[j][i - 3] = ary[j][i];
       }
     }
-  
+
     currentPiece = nextPieces.removeFirst();
     game.setPieceBoard(currentPiece.getPiece());
     nextPieces.add(betterRandPiece());
     setSidePieceDisplay();
     boolean gameOver = game.gameTick();
-    if(!gameOver) {
+    if (!gameOver) {
       isGameOver = true;
     }
-  }
-  else if(heldPieceThisTurn == false) {
+  } else if (heldPieceThisTurn == false) {
     heldPieceThisTurn = true;
     Piece temp = heldPiece;
     heldPiece = currentPiece;
     heldPiece.reset();
     int[][] ary = heldPiece.getPiece();
-    for(int i = 3; i <= 6; i++) {
-      for(int j = 0; j <= 3; j++) {
+    for (int i = 3; i <= 6; i++) {
+      for (int j = 0; j <= 3; j++) {
         heldPieceDisplay[j][i - 3] = ary[j][i];
       }
     }
     currentPiece = temp;
     game.setPieceBoard(currentPiece.getPiece());
     boolean gameOver = game.gameTick();
-    if(!gameOver) {
+    if (!gameOver) {
       isGameOver = true;
     }
   }
   drawBoard(game.getDisplayBoard());
 }
 
-void mouseClicked(){
-  if(!started){
-  if(mouseX <= 70 && mouseX >=40 && mouseY <=400 && mouseY >= 350 && level + 1 < 13){
-    level++;
-  }
-  else if(mouseX <= 190 && mouseX >=120 && mouseY <=400 && mouseY >= 350 && level - 1 > 0){
-    level--;
-  }
-  
-  if(mouseX >= 50 && mouseX <= 100 && mouseY >= 620 && mouseY <= 670) {
-    mode = 1;
-    modeName = "HEAVEN";
-    generatePieces();
-    currentPiece = betterRandPiece();
-    nextPieces = new LinkedList<Piece>();
-    for(int i = 0; i < 3; i++) {
-      nextPieces.add(betterRandPiece());
+void mouseClicked() {
+  if (!started) {
+    if (mouseX <= 70 && mouseX >=40 && mouseY <=400 && mouseY >= 350 && level + 1 < 13) {
+      level++;
+    } else if (mouseX <= 190 && mouseX >=120 && mouseY <=400 && mouseY >= 350 && level - 1 > 0) {
+      level--;
+    }
+
+    if (mouseX >= 50 && mouseX <= 100 && mouseY >= 620 && mouseY <= 670) {
+      mode = 1;
+      modeName = "HEAVEN";
+      generatePieces();
+      currentPiece = betterRandPiece();
+      nextPieces = new LinkedList<Piece>();
+      for (int i = 0; i < 3; i++) {
+        nextPieces.add(betterRandPiece());
+      }
+    } else if (mouseX >= 120 && mouseX <= 170 && mouseY >= 620 && mouseY <= 670) {
+      mode = 2;
+      modeName = "HELL";
+      currentPiece = randPiece();
+      nextPieces = new LinkedList<Piece>();
+      for (int i = 0; i < 3; i++) {
+        nextPieces.add(randPiece());
+      }
     }
   }
-  else if(mouseX >= 120 && mouseX <= 170 && mouseY >= 620 && mouseY <= 670) {
-    mode = 2;
-    modeName = "HELL";
-    currentPiece = randPiece();
-    nextPieces = new LinkedList<Piece>();
-    for(int i = 0; i < 3; i++) {
-      nextPieces.add(randPiece());
-    }
-  }
-  
-}
-if(started && mouseX <= 810 && mouseX >=660 && mouseY <=170 && mouseY >= 10){
+  if (started && mouseX <= 810 && mouseX >=660 && mouseY <=170 && mouseY >= 10) {
     pauseGame();
   }
 }
@@ -619,28 +606,26 @@ void setSidePieceDisplay() {
   Piece piece1 = nextPieces.get(0);
   Piece piece2 = nextPieces.get(1);
   Piece piece3 = nextPieces.get(2);
-  
+
   int[][] ary1 = piece1.getPiece();
   int[][] ary2 = piece2.getPiece();
   int[][] ary3 = piece3.getPiece();
-  
-  for(int i = 3; i <= 6; i++) {
-    for(int j = 0; j <= 3; j++) {
+
+  for (int i = 3; i <= 6; i++) {
+    for (int j = 0; j <= 3; j++) {
       sidePieces[j][i - 3] = ary1[j][i];
     }
   }
-  for(int i = 3; i <= 6; i++) {
-    for(int j = 0; j <= 3; j++) {
+  for (int i = 3; i <= 6; i++) {
+    for (int j = 0; j <= 3; j++) {
       sidePieces[4 + j][i - 3] = ary2[j][i];
     }
   }
-  for(int i = 3; i <= 6; i++) {
-    for(int j = 0; j <= 3; j++) {
+  for (int i = 3; i <= 6; i++) {
+    for (int j = 0; j <= 3; j++) {
       sidePieces[8 + j][i - 3] = ary3[j][i];
     }
   }
-  
-  
 }
 
 Piece randPiece() {
@@ -669,12 +654,11 @@ Piece randPiece() {
 }
 
 Piece betterRandPiece() {
-  if(generatedPieces.size() == 1) {
-     Piece newPiece = generatedPieces.remove(0);
-     generatePieces();
-     return newPiece;
-  }
-  else {
+  if (generatedPieces.size() == 1) {
+    Piece newPiece = generatedPieces.remove(0);
+    generatePieces();
+    return newPiece;
+  } else {
     return generatedPieces.remove(0);
   }
 }
@@ -688,6 +672,6 @@ void generatePieces() {
   generatedPieces.add(new SPiece());
   generatedPieces.add(new ZPiece());
   generatedPieces.add(new TPiece());
-  
+
   Collections.shuffle(generatedPieces);
 }
