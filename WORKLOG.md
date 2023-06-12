@@ -63,6 +63,10 @@ Made fix to piece outline, works well now. Need to finalize finishing touches du
 
 Completed a hell mode for the game and related code in start screen. Finishing touches will continue over the weekend.
 
+### 6/11/23
+
+Made some fixes to zone, and added the visual and audio cues for zone. End of project with essentially all feautures met.
+
 ## Arshan Pervez
 
 ### 5/22/23
