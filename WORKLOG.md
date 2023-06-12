@@ -65,7 +65,7 @@ Completed a hell mode for the game and related code in start screen. Finishing t
 
 ### 6/11/23
 
-Made some fixes to zone, and added the visual and audio cues for zone. End of project with essentially all feautures met.
+Made some fixes to zone, and added the visual and audio cues for zone. End of project with essentially all features met.
 
 ## Arshan Pervez
 
