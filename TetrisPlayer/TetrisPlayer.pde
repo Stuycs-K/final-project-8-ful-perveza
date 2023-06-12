@@ -2,6 +2,7 @@ import java.util.*;
 import processing.sound.*;
 
 int score;
+PFont font;
 SoundFile file;
 SoundFile file2;
 SoundFile file3;
@@ -53,6 +54,8 @@ public static final int L = 7;
 
 void setup() {
   bg = loadImage("tetris3.png");
+  font = createFont("EvilEmpire-4BBVK.ttf",50);
+  textFont(font);
   size(800, 800);
   file = new SoundFile(this, "Tetris.wav");
   file2 = new SoundFile(this, "vine-boom.wav");
