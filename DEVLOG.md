@@ -16,11 +16,10 @@
 
 ## Broken features / bugs
 - Broken features
- - None
+  - None
 - Bugs
- - On the first piece of a run with high score set to 0, high score updates to 1 or 2 instead of waiting to be updated at the end of the run. Recording high score after that works fine, however.
- - Piece movement can feel somewhat stiff, especially when played at fast speeds. Fine and precise movement can be hindered.
- - Gaming over in zone does not
+  - On the first piece of a run with high score set to 0, high score updates to 1 or 2 instead of waiting to be updated at the end of the run. Recording high score after that works fine, however.
+  - Piece movement can feel somewhat stiff, especially when played at fast speeds. Fine and precise movement can be hindered.
 
 ## Content resources
 - Tetris Wiki: https://tetris.wiki/Tetris.wiki Helped clarify some of the specific details about building Tetris, such as randomly generating pieces.
